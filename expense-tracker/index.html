@@ -4,21 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 <body>
 
-    <div>
-        <form onsubmit="handleSubmit(event)">
-            <label for="desc">Description :</label><br>
-            <input type="text" id="desc" name="desc"><br><br>
+    <h1 class="text-center text-2xl bg-yellow-100 p-5">Expense Tracker</h1>
+
+    <!-- form division for the entry -->
+    <div class="w-1/2 p-6 bg-pink-100 float-left mt-5 h-screen">
+
+        <form onsubmit="handleSubmit(event)" class="space-y-4 text-center">
+
+            <label class="block text-lg font-semibold text-gray-700" for="desc">Description</label>
+            <input class="border-2 border-black align-center" type="text" id="desc" name="desc" required><br><br>
     
-            <label for="amount">Amount :</label><br>
-            <input type="number" id="amount" name="amount"><br><br>
+            <label class="block text-lg font-semibold text-gray-700" for="amount">Amount</label>
+            <input class="border-2 border-black" type="number" id="amount" name="amount" required><br><br>
     
-            
     
-            <label for="cat">Category :</label><br>
-            <select id="cat" name="cat">
+            <label class="block text-lg font-semibold text-gray-700" for="cat">Category</label>
+            <select class="border-2 border-black" id="cat" name="cat">
                 <option value="fuel">Fuel</option>
                 <option value="food">Food</option>
                 <option value="movies">Movies</option>
@@ -26,17 +31,15 @@
                 <option value="others">Others</option>
             </select><br><br>
     
-            <button type="submit">Add</button>
+            <button class="bg-black text-white px-5 py-2" type="submit">Add</button>
     
         </form>
 
     </div>
     
-
-    <div>
-       <ul id="list-items">
-
-       </ul>
+    <!-- all the tasks will appear here -->
+    <div class="w-1/2 float-right mt-5">
+       <ul id="list-items" class="bg-blue-100 p-5 h-screen"></ul>
     </div>
 
 </body>
