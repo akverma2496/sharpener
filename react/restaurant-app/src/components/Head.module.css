@@ -1,0 +1,23 @@
+.container{
+    margin: 0 auto;
+    background-color: brown;
+    display: flex;
+    padding: 25px 100px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo{
+    color: white;
+    text-align: left;
+}
+
+.button{
+    padding: 10px 50px;
+}
+
+.image{
+  width: 100vw;     /* 100% of the viewport width */
+  height: 200px;   
+  object-fit: cover;
+}
