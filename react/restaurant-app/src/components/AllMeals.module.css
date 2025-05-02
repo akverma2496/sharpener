@@ -1,0 +1,33 @@
+.container{
+    background-color: white;
+    border-radius: 10px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.container ul{
+    list-style-type: none;
+}
+
+.list{
+    padding: 10px 25px;
+}
+
+.list div p{
+    padding: 2px;
+}
+
+.pone{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.ptwo{
+    font-style: italic;
+}
+
+.pthree{
+    font-weight: bold;
+    color: brown;
+    font-size: 18px;
+}

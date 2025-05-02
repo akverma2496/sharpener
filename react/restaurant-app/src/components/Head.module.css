@@ -5,6 +5,9 @@
     padding: 25px 100px;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .logo{
@@ -23,15 +26,15 @@
 }
 
 .float{
-    background-color: grey;
+    background-color: black;
     color: white;
     text-align: center;
     width: 50%;
     margin: 0 auto;
     padding: 25px;
-    position: fixed;
-    left: 24%;
-    top: 30%;
+    position: relative;
+    top: -75px;
+    z-index: 1;
 }
 
 .float p{
