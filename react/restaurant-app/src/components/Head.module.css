@@ -2,7 +2,7 @@
     margin: 0 auto;
     background-color: brown;
     display: flex;
-    padding: 25px 100px;
+    padding: 20px 100px;
     justify-content: space-between;
     align-items: center;
     position: sticky;
@@ -20,7 +20,7 @@
 }
 
 .image{
-  width: 100vw;     /* 100% of the viewport width */
+  width: 100%;     /* 100% of the viewport width */
   height: 200px;   
   object-fit: cover;
 }
@@ -33,7 +33,7 @@
     margin: 0 auto;
     padding: 25px;
     position: relative;
-    top: -75px;
+    top: -100px;
     z-index: 1;
 }
 

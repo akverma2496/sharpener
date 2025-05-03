@@ -31,14 +31,23 @@ const AllMeals = () => {
         <ul>
             {
                 dummyMeals.map((meal) => (
+                    <>
                     <li className={styles.list}>
                         <div>
                             <p className={styles.pone}>{meal.name}</p>
                             <p className={styles.ptwo}>{meal.sub}</p>
                             <p className={styles.pthree}>${meal.price}</p>
                         </div>
-                        <hr />
+                        <div>
+                            <p>
+                                <span className={styles.amount}>Amount</span>
+                                <span className={styles.quant}>1</span>
+                            </p>
+                            <button className={styles.addBtn}>+ Add</button>
+                        </div>
                     </li>
+                    <hr />
+                    </>
                 ))
             }
         </ul>
