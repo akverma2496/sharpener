@@ -1,0 +1,22 @@
+.amount{
+    color: brown;
+    font-weight: bold;
+}
+
+.quant{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 2px 15px;
+    margin-left: 10px;
+}
+
+.addBtn{
+    padding: 5px 25px;
+    color: white;
+    font-weight: bolder;
+    background-color: brown;
+    border-radius: 50px;
+    border: 1px solid brown;
+    margin-top: 5px;
+    cursor: pointer;
+}

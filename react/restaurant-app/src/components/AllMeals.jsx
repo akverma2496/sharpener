@@ -1,5 +1,9 @@
 import React from 'react'
 import styles from "./AllMeals.module.css"
+import DishDetail from './DishDetail'
+import AddItems from './AddItems'
+import Modal from './Modal'
+import { createPortal } from 'react-dom'
 
 const AllMeals = () => {
 
@@ -33,24 +37,15 @@ const AllMeals = () => {
                 dummyMeals.map((meal) => (
                     <>
                     <li className={styles.list}>
-                        <div>
-                            <p className={styles.pone}>{meal.name}</p>
-                            <p className={styles.ptwo}>{meal.sub}</p>
-                            <p className={styles.pthree}>${meal.price}</p>
-                        </div>
-                        <div>
-                            <p>
-                                <span className={styles.amount}>Amount</span>
-                                <span className={styles.quant}>1</span>
-                            </p>
-                            <button className={styles.addBtn}>+ Add</button>
-                        </div>
+                        <DishDetail meal={meal}/>
+                        <AddItems />  
                     </li>
                     <hr />
                     </>
                 ))
             }
         </ul>
+        {true && createPortal(<Modal meal={dummyMeals[0]}/>, document.getElementById("modal"))}
     </div>
   )
 }

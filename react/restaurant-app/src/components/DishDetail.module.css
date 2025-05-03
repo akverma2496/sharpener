@@ -1,0 +1,19 @@
+.pone{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.ptwo{
+    font-style: italic;
+}
+
+.pthree{
+    font-weight: bold;
+    color: brown;
+    font-size: 18px;
+}
+
+
+.pone, .ptwo, .pthree{
+    padding: 2px;
+}
