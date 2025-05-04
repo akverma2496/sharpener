@@ -5,7 +5,7 @@ import AddItems from './AddItems'
 import Modal from './Modal'
 import { createPortal } from 'react-dom'
 
-const AllMeals = () => {
+const AllMeals = (props) => {
 
     const dummyMeals = [
         {
@@ -45,7 +45,7 @@ const AllMeals = () => {
                 ))
             }
         </ul>
-        {true && createPortal(<Modal meal={dummyMeals[0]}/>, document.getElementById("modal"))}
+        {props.cartVisibility && createPortal(<Modal onSetCartVisility = {props.onSetCartVisibility} meal={dummyMeals[0]}/>, document.getElementById("modal"))}
     </div>
   )
 }

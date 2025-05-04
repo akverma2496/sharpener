@@ -1,12 +1,17 @@
 import React from 'react'
 import styles from "./Head.module.css"
 
-const Head = () => {
+const Head = (props) => {
+  
+  const cartItemsHandler = () => {
+    props.onSetCartVisibility(true)
+  }
+
   return (
     <>
     <div className={styles.container}>
         <h1 className={styles.logo}>ReactMeals</h1>
-        <button className={styles.button}>Your Cart {0}</button>
+        <button onClick={cartItemsHandler}className={styles.button}>Your Cart {0}</button>
     </div>
     <img className={styles.image} src="../src/assets/meals.jpg" alt="meal" />
     <div className={styles.float}>

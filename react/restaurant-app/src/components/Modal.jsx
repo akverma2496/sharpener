@@ -2,6 +2,11 @@ import React from 'react'
 import styles from "./Modal.module.css"
 
 const Modal = (props) => {
+  
+  const closeModalHandler = () => {
+    props.onSetCartVisility(false);
+  }
+
   return (
     <div className={styles.outerDiv}>
         <div className={styles.innerDiv}>
@@ -11,7 +16,7 @@ const Modal = (props) => {
                 <span>{props.meal.price}</span>
             </p>
             <div className={styles.btnDiv}>
-                <button className={styles.closeBtn}>Close</button>
+                <button onClick={closeModalHandler} className={styles.closeBtn}>Close</button>
                 <button className={styles.orderBtn}>Order</button>
             </div>
         </div>

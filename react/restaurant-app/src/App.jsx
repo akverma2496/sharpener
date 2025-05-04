@@ -4,10 +4,12 @@ import AllMeals from './components/AllMeals'
 
 function App() {
 
+  const [cartVisibility, setCartVisibility] = useState(false)
+
   return (
     <>
-      <Head />
-      <AllMeals />
+      <Head onSetCartVisibility = {setCartVisibility}/>
+      <AllMeals cartVisibility={cartVisibility} onSetCartVisibility = {setCartVisibility}/>
     </>
   )
 }
