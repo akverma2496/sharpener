@@ -6,8 +6,9 @@
 .quant{
     border: 1px solid lightgray;
     border-radius: 5px;
-    padding: 2px 15px;
+    padding: 2px;
     margin-left: 10px;
+    width: 30px;
 }
 
 .addBtn{

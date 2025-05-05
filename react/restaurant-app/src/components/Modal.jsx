@@ -7,13 +7,57 @@ const Modal = (props) => {
     props.onSetCartVisility(false);
   }
 
+  const addOneHandler = (e) => {
+    let total = props.cartItems[e.target.id].total;
+    console.log(total)
+    props.cartItems[e.target.id].total = total + 1;
+    props.setTotalValue((prevState) => {
+      return prevState + 1;
+    })
+  }
+
+  const lessOneHandler = (e) => {
+    let total = props.cartItems[e.target.id].total;
+    props.cartItems[e.target.id].total = total - 1;
+    props.setTotalValue((prevState) => {
+      return prevState - 1;
+    })
+  }
+
+  let totalBill = 0;
+
+  Object.values(props.cartItems).forEach((val) => {
+    totalBill += (val.total * val.price)
+  })
+
   return (
     <div className={styles.outerDiv}>
         <div className={styles.innerDiv}>
-            <p className={styles.modalTitle}>{props.meal.name}</p>
+
+          {/* logic of map */}
+          {
+            props.dummyMeals.map((meal) => {
+              if(props.cartItems[meal.name].total != 0) return (<>
+                  <p className={styles.modalTitle}>{meal.name}</p>
+                  <div className={styles.series}>
+                    <p>
+                      <span className={styles.price}>${meal.price}</span>
+                      <span className={styles.total}>&times; {props.cartItems[meal.name].total}</span>
+                    </p>
+                    <div className={styles.edit}>
+                      <button id={meal.name} onClick={lessOneHandler} className={styles.minus}>-</button>
+                      <button id={meal.name} onClick={addOneHandler} className={styles.plus}>+</button>
+                    </div>
+                  </div>
+                  <hr />
+              </>)
+            })
+  
+          }
+
             <p className={styles.amountPara}>
                 <span>Total Amount</span>
-                <span>{props.meal.price}</span>
+                <span>${totalBill.toFixed(2)}</span>
             </p>
             <div className={styles.btnDiv}>
                 <button onClick={closeModalHandler} className={styles.closeBtn}>Close</button>

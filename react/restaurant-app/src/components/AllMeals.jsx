@@ -12,22 +12,22 @@ const AllMeals = (props) => {
             name: "Sushi",
             sub: "Finest fish and veggies",
             price: 22.99
-        },
-        {
+          },
+          {
             name: "Schnitzel",
-            sub: "A german speciality!",
+            sub: "A german speciality!",  
             price: 16.50
-        },
-        {
+          },
+          {
             name: "Barbeque Burger",
             sub: "American, raw, meaty",
             price: 12.99
-        },
-        {
+          },
+          {
             name: "Green Bowl",
-            sub: "Healthy...and green...",
-            price: "10.50"
-        }
+            sub: "Healthy...and green...", 
+            price: 10.50
+          }
     ]
 
   return (
@@ -38,14 +38,20 @@ const AllMeals = (props) => {
                     <>
                     <li className={styles.list}>
                         <DishDetail meal={meal}/>
-                        <AddItems />  
+                        <AddItems meal={meal}
+                        setTotalValue={props.setTotalValue}
+                        cartItems={props.cartItems}
+                        setCartItems={props.setCartItems} />  
                     </li>
                     <hr />
                     </>
                 ))
             }
         </ul>
-        {props.cartVisibility && createPortal(<Modal onSetCartVisility = {props.onSetCartVisibility} meal={dummyMeals[0]}/>, document.getElementById("modal"))}
+        {props.cartVisibility && createPortal(<Modal onSetCartVisility = {props.onSetCartVisibility} 
+        cartItems={props.cartItems}
+        dummyMeals={dummyMeals} 
+        setTotalValue={props.setTotalValue}/>, document.getElementById("modal"))}
     </div>
   )
 }

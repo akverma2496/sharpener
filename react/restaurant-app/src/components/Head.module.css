@@ -15,8 +15,30 @@
     text-align: left;
 }
 
+.icon{
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+.cart{
+    color: white;
+    background-color: brown;
+    padding: 5px 15px;
+    border: 1px solid brown;
+    border-radius: 25px;
+    margin-left: 10px;
+}
+
 .button{
+    border: 1px solid rgb(100, 0, 0);
+    border-radius: 50px;
     padding: 10px 50px;
+    background-color: rgb(100, 0, 0);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
 }
 
 .image{

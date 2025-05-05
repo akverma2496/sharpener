@@ -34,6 +34,54 @@ position: fixed;
     margin-bottom: 10px;
 }
 
+.modalTitle{
+    margin: 10px 0;
+    margin-bottom: 10px;
+}
+
+.series{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.price{
+    color: brown;
+}
+
+.total{
+    border: 1px solid grey;
+    margin-left: 10px;
+    padding: 0px 5px;
+}
+
+.edit{
+    text-align: right;
+}
+
+.plus, .minus{
+    border-radius: 5px;
+    font-weight: bold;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.plus{
+    background-color: brown;
+    color: white;
+    border: 1px solid white;
+    padding: 3px 15px 3px 15px;
+    margin-left: 5px;
+}
+
+.minus{
+    background-color: white;
+    color: brown;
+    border: 1px solid brown;
+    padding: 2px 15px 2px 15px;
+}
 .orderBtn{
     background-color: brown;
     color: white;
