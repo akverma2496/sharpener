@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import styles from './ProductEntry.module.css'
 
 const ProductEntry = (props) => {
 
@@ -40,7 +41,8 @@ const ProductEntry = (props) => {
   }
 
   return (
-    <form onSubmit={fromSubmitHandler}>
+  <div className={styles.container}>
+    <form className={styles.form} onSubmit={fromSubmitHandler}>
       <label htmlFor='pid'>Product ID</label>
       <input type="text" name="pid"  required onChange={productIdHandler}/>
 
@@ -59,6 +61,8 @@ const ProductEntry = (props) => {
   
       <button type='submit'>Add</button>
     </form>
+  </div>
+    
   )
 }
 

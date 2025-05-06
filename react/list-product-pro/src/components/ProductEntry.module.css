@@ -1,0 +1,22 @@
+.container{
+    background-color: aqua;
+    padding: 2rem;
+}
+
+.form{
+    display: flex;
+    justify-content: space-around;
+}
+
+.form label{
+    font-size: 1.5rem;
+    margin: 0 10px 0 10px;
+}
+
+.form input{
+    padding: 0.5rem;
+}
+
+.form button{
+    padding: 0 25px 0 25px;
+} 

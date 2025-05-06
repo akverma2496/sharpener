@@ -1,0 +1,14 @@
+.container{
+    text-align: center;
+    background-color: aquamarine;
+}
+
+
+
+.heading-three{
+    background-color: 'lightgrey';
+    padding: "2rem"; 
+    width: "90%"; 
+    margin: "0 auto"
+}
+
