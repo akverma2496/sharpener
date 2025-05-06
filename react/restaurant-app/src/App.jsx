@@ -29,21 +29,18 @@ function App() {
     }
 })
 
-console.log(cartItems)
-
-
-  return (
-    <>
-      <Head onSetCartVisibility = {setCartVisibility} totalValue = {totalValue}/>
-      <AllMeals 
-      cartVisibility={cartVisibility} 
-      onSetCartVisibility = {setCartVisibility} 
-      cartItems = {cartItems}
-      setCartItems={setCartItems}
-      totalValue={totalValue}
-      setTotalValue={setTotalValue}
-      />
-    </>
+return (
+  <>
+    <Head onSetCartVisibility = {setCartVisibility} totalValue = {totalValue}/>
+    <AllMeals 
+    cartVisibility={cartVisibility} 
+    onSetCartVisibility = {setCartVisibility} 
+    cartItems = {cartItems}
+    setCartItems={setCartItems}
+    totalValue={totalValue}
+    setTotalValue={setTotalValue}
+    />
+  </>
   )
 }
 

@@ -6,7 +6,7 @@ const AddItems = (props) => {
   const [count, setCount] = useState(0);
 
   const addToCartHandler = () => {
-    props.cartItems[props.meal.name].total = count;
+    props.cartItems[props.meal.name].total = parseInt(count);
     let totalCount = 0;
     Object.values(props.cartItems).forEach(value => {
          totalCount += value.total
@@ -18,7 +18,7 @@ const AddItems = (props) => {
     <div>
         <p>
             <span className={styles.amount}>Amount</span>
-            <input className={styles.quant} type="number" value={count} onChange={() => setCount(count+1)}/>
+            <input className={styles.quant} type="number" min="0" value={count} onChange={(e) => setCount(e.target.value)}/>
         </p>
         <button onClick={addToCartHandler} className={styles.addBtn}>+ Add</button>
     </div>

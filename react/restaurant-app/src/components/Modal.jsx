@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from "./Modal.module.css"
+import { Fragment } from 'react'
 
 const Modal = (props) => {
   
@@ -24,6 +25,14 @@ const Modal = (props) => {
     })
   }
 
+  const placeOrder = () => {
+    props.setTotalValue(0)
+    Object.values(props.cartItems).forEach((value) => {
+      value.total = 0;
+    })
+    props.onSetCartVisility(false);
+  }
+
   let totalBill = 0;
 
   Object.values(props.cartItems).forEach((val) => {
@@ -37,7 +46,7 @@ const Modal = (props) => {
           {/* logic of map */}
           {
             props.dummyMeals.map((meal) => {
-              if(props.cartItems[meal.name].total != 0) return (<>
+              if(props.cartItems[meal.name].total != 0) return (<Fragment key={meal.id}>
                   <p className={styles.modalTitle}>{meal.name}</p>
                   <div className={styles.series}>
                     <p>
@@ -50,7 +59,7 @@ const Modal = (props) => {
                     </div>
                   </div>
                   <hr />
-              </>)
+              </Fragment>)
             })
   
           }
@@ -61,7 +70,7 @@ const Modal = (props) => {
             </p>
             <div className={styles.btnDiv}>
                 <button onClick={closeModalHandler} className={styles.closeBtn}>Close</button>
-                <button className={styles.orderBtn}>Order</button>
+                <button onClick={placeOrder}className={styles.orderBtn}>Order</button>
             </div>
         </div>
     </div>
