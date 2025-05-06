@@ -1,64 +1,31 @@
-import React, {useState} from 'react'
 import { Fragment } from 'react'
 import styles from "./AllMeals.module.css"
 import DishDetail from './DishDetail'
 import AddItems from './AddItems'
-import Modal from './Modal'
-import { createPortal } from 'react-dom'
+import { useContext } from 'react'
+import { CartContext } from '../store/context'
 
 const AllMeals = (props) => {
 
-    const dummyMeals = [
-        {
-            id: 1,
-            name: "Sushi",
-            sub: "Finest fish and veggies",
-            price: 22.99
-          },
-          {
-            id: 2,
-            name: "Schnitzel",
-            sub: "A german speciality!",  
-            price: 16.50
-          },
-          {
-            id: 3,
-            name: "Barbeque Burger",
-            sub: "American, raw, meaty",
-            price: 12.99
-          },
-          {
-            id: 4,
-            name: "Green Bowl",
-            sub: "Healthy...and green...", 
-            price: 10.50
-          }
-    ]
+    const cartItems = useContext(CartContext)
 
-  return (
-    <div className={styles.container}>
-        <ul>
-            {
-                dummyMeals.map((meal) => (
-                    <Fragment key={meal.id}>
-                    <li className={styles.list}>
-                        <DishDetail meal={meal}/>
-                        <AddItems meal={meal}
-                        setTotalValue={props.setTotalValue}
-                        cartItems={props.cartItems}
-                        setCartItems={props.setCartItems} />  
-                    </li>
-                    <hr />
-                    </Fragment>
-                ))
-            }
-        </ul>
-        {props.cartVisibility && createPortal(<Modal onSetCartVisility = {props.onSetCartVisibility} 
-        cartItems={props.cartItems}
-        dummyMeals={dummyMeals} 
-        setTotalValue={props.setTotalValue} />, document.getElementById("modal"))}
-    </div>
-  )
+    return (
+        <div className={styles.container}>
+            <ul>
+                {
+                    cartItems.idArray.map((name) => (
+                        <Fragment key={cartItems.byId[name].id}>
+                            <li className={styles.list}>
+                                <DishDetail meal={cartItems.byId[name]} />
+                                <AddItems meal={cartItems.byId[name]} cartItems={cartItems} setTotalValue={props.setTotalValue} />
+                            </li>
+                            <hr />
+                        </Fragment>
+                    ))
+                }
+            </ul>
+        </div>
+    )
 }
 
 export default AllMeals

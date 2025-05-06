@@ -3,76 +3,67 @@ import styles from "./Modal.module.css"
 import { Fragment } from 'react'
 
 const Modal = (props) => {
-  
-  const closeModalHandler = () => {
-    props.onSetCartVisility(false);
-  }
+
+  const global = props.cartItems.byId   // object from global
 
   const addOneHandler = (e) => {
-    let total = props.cartItems[e.target.id].total;
-    console.log(total)
-    props.cartItems[e.target.id].total = total + 1;
-    props.setTotalValue((prevState) => {
-      return prevState + 1;
-    })
+    (global[e.target.id].total)++
+    props.setTotalValue((prevState) => prevState + 1)
   }
 
   const lessOneHandler = (e) => {
-    let total = props.cartItems[e.target.id].total;
-    props.cartItems[e.target.id].total = total - 1;
-    props.setTotalValue((prevState) => {
-      return prevState - 1;
-    })
+    (global[e.target.id].total)--
+    props.setTotalValue((prevState) => prevState - 1)
   }
 
   const placeOrder = () => {
+    Object.values(global).forEach((value) => value.total = 0)
     props.setTotalValue(0)
-    Object.values(props.cartItems).forEach((value) => {
-      value.total = 0;
-    })
-    props.onSetCartVisility(false);
+    props.setModal(false);
   }
 
   let totalBill = 0;
-
-  Object.values(props.cartItems).forEach((val) => {
-    totalBill += (val.total * val.price)
-  })
+  Object.values(global).forEach((val) => totalBill += (val.total * val.price))
 
   return (
     <div className={styles.outerDiv}>
-        <div className={styles.innerDiv}>
+      <div className={styles.innerDiv}>
 
-          {/* logic of map */}
-          {
-            props.dummyMeals.map((meal) => {
-              if(props.cartItems[meal.name].total != 0) return (<Fragment key={meal.id}>
-                  <p className={styles.modalTitle}>{meal.name}</p>
-                  <div className={styles.series}>
-                    <p>
-                      <span className={styles.price}>${meal.price}</span>
-                      <span className={styles.total}>&times; {props.cartItems[meal.name].total}</span>
-                    </p>
-                    <div className={styles.edit}>
-                      <button id={meal.name} onClick={lessOneHandler} className={styles.minus}>-</button>
-                      <button id={meal.name} onClick={addOneHandler} className={styles.plus}>+</button>
-                    </div>
-                  </div>
-                  <hr />
-              </Fragment>)
-            })
-  
-          }
+        {/* logic of map */}
+        {
+          props.cartItems.idArray.map((meal) => {
+            if (global[meal].total != 0) 
+            return (
+            <Fragment key={global[meal].id}>
+              <p className={styles.modalTitle}>{global[meal].name}</p>
+              <div className={styles.series}>
+                <p>
+                  <span className={styles.price}>${global[meal].price}</span>
+                  <span className={styles.total}>&times; {global[meal].total}</span>
+                </p>
+                <div className={styles.edit}>
+                  <button id={meal} onClick={lessOneHandler} className={styles.minus}>-</button>
+                  <button id={meal} onClick={addOneHandler} className={styles.plus}>+</button>
+                </div>
+              </div>
+              <hr />
+            </Fragment>)
+          })
 
-            <p className={styles.amountPara}>
-                <span>Total Amount</span>
-                <span>${totalBill.toFixed(2)}</span>
-            </p>
-            <div className={styles.btnDiv}>
-                <button onClick={closeModalHandler} className={styles.closeBtn}>Close</button>
-                <button onClick={placeOrder}className={styles.orderBtn}>Order</button>
-            </div>
+        }
+
+        {/* Total Amount of all the items */}
+        <p className={styles.amountPara}>
+          <span>Total Amount</span>
+          <span>${totalBill.toFixed(2)}</span>
+        </p>
+
+        <div className={styles.btnDiv}>
+          <button onClick={() => props.setModal(false)} className={styles.closeBtn}>Close</button>
+          <button onClick={placeOrder} className={styles.orderBtn}>Order</button>
         </div>
+      </div>
+      
     </div>
   )
 }
