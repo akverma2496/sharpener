@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import styles from "./Modal.module.css"
-import { NotesContext } from '../store/NotesProvier'
+import { NotesContext } from '../store/NotesProvider'
 
 const Modal = (props) => {
 
@@ -17,15 +17,17 @@ const Modal = (props) => {
     <div className={styles.outer}>
         <div className={styles.inner}>
             <h3>Add New Note</h3>
-            <div>
+            <form className={styles.group} id='form' onSubmit={addNoteHandler}>
                 <label htmlFor="title">Note Title</label>
-                <input type="text" id='title' value={title} onChange={(e) => setTitle(e.target.value)}/>
+                <input type="text" id='title' value={title} onChange={(e) => setTitle(e.target.value)} required/>
+                <br />
                 <label htmlFor="desc">Description</label>
-                <textarea name="description" id="desc" value={description} onChange={(e) => setDescription(e.target.value)} />
-            </div>
+                <textarea name="description" id="desc" value={description} onChange={(e) => setDescription(e.target.value)} required/>
+            </form>
+            <br />
             <div>
                 <button onClick={() => props.setModal(false)}>Close</button>
-                <button onClick={addNoteHandler} id="add">Add</button>
+                <button form="form" type="submit">Add</button>
             </div>
         </div>
     </div>

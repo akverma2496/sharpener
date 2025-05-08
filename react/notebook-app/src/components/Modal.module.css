@@ -13,9 +13,35 @@
     
 .inner{
     background-color: white;
-    width: 30%;
     border-radius: 5px;
-    padding-left: 10px;
-    padding-top: 20px;
-    padding-right: 10px;
+    padding: 20px 50px;
+    text-align: center;
 }
+
+.group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+  .group label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+  
+  .group input,
+  .group textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .inner div{
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .inner div button{
+    margin-bottom: 10px;
+  }
