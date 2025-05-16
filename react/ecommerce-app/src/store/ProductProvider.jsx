@@ -1,8 +1,10 @@
-import { createContext } from "react"
+import { createContext, useState } from "react"
 
 export const ProductContext = createContext()
 
 const ProductProvider = (props) => {
+
+    const [modal,  setModal] = useState(false)
 
     const products = [
         {
@@ -32,7 +34,7 @@ const ProductProvider = (props) => {
     ]
 
 return (
-    <ProductContext.Provider value={products}>
+    <ProductContext.Provider value={{products, modal, setModal}}>
         {props.children}
     </ProductContext.Provider>
 )

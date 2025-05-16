@@ -1,13 +1,12 @@
 import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import {ProductContext} from '../ProductProvider';
+import {ProductContext} from '../store/ProductProvider';
 import { Col, Container, Row } from 'react-bootstrap';
 
 const AllItems = () => {
 
-    const products = useContext(ProductContext)
-    console.log(products)
+    const {products} = useContext(ProductContext)
 
     return (
         <Container className="my-4">
