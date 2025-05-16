@@ -7,17 +7,17 @@ import styles from "./App.module.css"
 import NotesInfo from './components/NotesInfo'
 
 function App() {
-  
+
   const [showModal, setModal] = useState(false)
 
   return (
     <div className={styles.main}>
-    <h1>Notebook App</h1>
-    <SearchNotes />
-    <NotesInfo />
-    <button onClick={() => setModal(true)}>Add New Note</button>
-    {showModal && createPortal(<Modal setModal={setModal}/>, document.getElementById("modal"))}
-    <AllNotes />
+      <h1>Notebook App</h1>
+      <SearchNotes />
+      <NotesInfo />
+      <button onClick={() => setModal(true)}>Add New Note</button>
+      {showModal && createPortal(<Modal setModal={setModal} />, document.getElementById("modal"))}
+      <AllNotes />
     </div>
   )
 }

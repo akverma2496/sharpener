@@ -3,7 +3,7 @@ import { NotesContext } from '../store/NotesProvider'
 
 const SearchNotes = () => {
 
-  const {searchTerm, setSearchTerm} = useContext(NotesContext)
+  const { setSearchTerm } = useContext(NotesContext)
   const [inputValue, setInputValue] = useState("")
 
 
@@ -18,12 +18,13 @@ const SearchNotes = () => {
         clearTimeout(timer)
       }
     },[inputValue])
-
+  
+//4
   return (
     <>
       <label htmlFor="search">Search : </label>
       <input style={{"padding": "5px"}}
-      id="search" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
+      id="search" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
     </>
   )
 }
