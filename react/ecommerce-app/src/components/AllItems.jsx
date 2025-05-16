@@ -6,20 +6,28 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 const AllItems = () => {
 
-    const {products} = useContext(ProductContext)
+    const {products, setCartItems, cartItems} = useContext(ProductContext)
+
+    const addToCartHandler = (product) => {
+
+        setCartItems((prevItems) => {
+            return [...prevItems, {...product, quantity: 1}]
+        })
+  
+    }
 
     return (
         <Container className="my-4">
             <Row>
-                {products.map((item, index) => (
-                    <Col key={index} xs={12} md={6} lg={3} className="mb-4">
+                {products.map((product) => (
+                    <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
 
                         <Card style={{ width: '100%' }}>
-                            <Card.Img variant="top" src={item.imageUrl} />
+                            <Card.Img variant="top" src={product.imageUrl} />
                             <Card.Body>
-                                <Card.Title>{item.title}</Card.Title>
-                                <Card.Text>Price: ${item.price}</Card.Text>
-                                <Button variant="primary">Add To Cart</Button>
+                                <Card.Title>{product.title}</Card.Title>
+                                <Card.Text>Price: ${product.price}</Card.Text>
+                                <Button onClick={() => addToCartHandler(product)} variant="primary">Add To Cart</Button>
                             </Card.Body>
                         </Card>
 

@@ -1,6 +1,14 @@
-import { Button, Modal, ListGroup } from 'react-bootstrap';
+import { Button, Modal, ListGroup, Form, Image } from 'react-bootstrap';
 
-const MyModal = ({ products, modal, setModal }) => {
+const MyModal = ({ modal, setModal, cartItems, setCartItems }) => {
+
+  const removeCartItem = (product) => {
+    const filteredItems = cartItems.filter((item) => {
+      return product.id != item.id
+    })
+
+    setCartItems(filteredItems)
+  }
 
   return (
     <>
@@ -17,18 +25,47 @@ const MyModal = ({ products, modal, setModal }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>4 Items Found</h4>
-
+          
           <ListGroup>
             {
-              products.map((product) => (
-                <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                <span>{product.title}</span>
-                <Button variant="danger" size="sm">Remove</Button>
-            </ListGroup.Item>
+              cartItems.map((product) => (
+                <ListGroup.Item className="d-flex align-items-center">
+                  {/* Small Image */}
+                  <Image
+                    src={product.imageUrl}
+                    rounded
+                    style={{ width: 50, height: 50, objectFit: 'cover' }}
+                    className="me-3"
+                  />
+
+                  {/* Title */}
+                  <div style={{ flex: '1 1 200px' }} className="me-3">
+                    {product.title}
+                  </div>
+
+                  {/* Price */}
+                  <div style={{ width: 80 }} className="me-3">
+                    ${product.price.toFixed(2)}
+                  </div>
+
+                  {/* Quantity input */}
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    value={1}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    style={{ width: 70 }}
+                    className="me-3"
+                  />
+
+                  {/* Remove button */}
+                  <Button variant="danger" onClick={() => removeCartItem(product)}>
+                    Remove
+                  </Button>
+                </ListGroup.Item>
               ))
             }
-        </ListGroup>
+          </ListGroup>
 
 
           {/* <p>

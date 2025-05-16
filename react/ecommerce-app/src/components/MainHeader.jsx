@@ -6,7 +6,7 @@ import MyModal from './MyModal'
 
 const MainHeader = () => {
 
-    const {products, modal, setModal} = useContext(ProductContext)
+    const {products, modal, setModal, cartItems, setCartItems} = useContext(ProductContext)
 
     return (
         <>
@@ -22,10 +22,10 @@ const MainHeader = () => {
                     </Nav>
 
                     <Button variant="primary" onClick={() => setModal(true)}>
-                        Cart <Badge bg="secondary">9</Badge>
+                        Cart <Badge bg="secondary">{cartItems.length}</Badge>
                         <span className="visually-hidden">unread messages</span>
                     </Button>
-                    {modal && createPortal(<MyModal modal={modal} setModal={setModal} products={products}/>, document.getElementById("modal"))}
+                    {modal && createPortal(<MyModal modal={modal} setModal={setModal} cartItems={cartItems} setCartItems={setCartItems}/>, document.getElementById("modal"))}
                 </Container>
             </Navbar>
 

@@ -8,18 +8,21 @@ const ProductProvider = (props) => {
 
     const products = [
         {
+            id: Math.random().toString(),
             title: 'Colors',
             price: 100,
             imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
         },
 
         {
+            id: Math.random().toString(),
             title: 'Black and white Colors',
             price: 50,
             imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
         },
 
         {
+            id: Math.random().toString(),
             title: 'Yellow and Black Colors',
             price: 70,
             imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
@@ -27,14 +30,17 @@ const ProductProvider = (props) => {
         },
 
         {
+            id: Math.random().toString(),
             title: 'Blue Color',
             price: 100,
             imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
         }
     ]
 
+    const [cartItems, setCartItems] = useState([])
+
 return (
-    <ProductContext.Provider value={{products, modal, setModal}}>
+    <ProductContext.Provider value={{products, modal, setModal, cartItems, setCartItems}}>
         {props.children}
     </ProductContext.Provider>
 )
