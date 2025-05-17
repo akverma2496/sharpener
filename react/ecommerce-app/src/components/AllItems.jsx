@@ -11,6 +11,18 @@ const AllItems = () => {
     const addToCartHandler = (product) => {
 
         setCartItems((prevItems) => {
+
+            const index = prevItems.findIndex((item) => item.title == product.title)
+
+            if(index != -1){
+                let updatedItems = [...prevItems]
+                updatedItems[index] = {
+                    ...updatedItems[index],
+                    quantity : updatedItems[index].quantity+1
+                }
+                return updatedItems
+            }
+
             return [...prevItems, {...product, quantity: 1}]
         })
   

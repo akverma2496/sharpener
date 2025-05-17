@@ -1,14 +1,7 @@
-import { Button, Modal, ListGroup, Form, Image } from 'react-bootstrap';
+import { Button, Modal, ListGroup } from 'react-bootstrap';
+import ListItems from './ListItems';
 
 const MyModal = ({ modal, setModal, cartItems, setCartItems }) => {
-
-  const removeCartItem = (product) => {
-    const filteredItems = cartItems.filter((item) => {
-      return product.id != item.id
-    })
-
-    setCartItems(filteredItems)
-  }
 
   return (
     <>
@@ -25,46 +18,9 @@ const MyModal = ({ modal, setModal, cartItems, setCartItems }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          
+            {cartItems.length === 0 && <h3 style={{textAlign: "center"}}>Cart Is Empty</h3>}
           <ListGroup>
-            {
-              cartItems.map((product) => (
-                <ListGroup.Item className="d-flex align-items-center">
-                  {/* Small Image */}
-                  <Image
-                    src={product.imageUrl}
-                    rounded
-                    style={{ width: 50, height: 50, objectFit: 'cover' }}
-                    className="me-3"
-                  />
-
-                  {/* Title */}
-                  <div style={{ flex: '1 1 200px' }} className="me-3">
-                    {product.title}
-                  </div>
-
-                  {/* Price */}
-                  <div style={{ width: 80 }} className="me-3">
-                    ${product.price.toFixed(2)}
-                  </div>
-
-                  {/* Quantity input */}
-                  <Form.Control
-                    type="number"
-                    min="1"
-                    value={1}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    style={{ width: 70 }}
-                    className="me-3"
-                  />
-
-                  {/* Remove button */}
-                  <Button variant="danger" onClick={() => removeCartItem(product)}>
-                    Remove
-                  </Button>
-                </ListGroup.Item>
-              ))
-            }
+            <ListItems cartItems={cartItems} setCartItems={setCartItems}/>
           </ListGroup>
 
 
