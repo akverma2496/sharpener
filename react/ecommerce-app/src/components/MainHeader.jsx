@@ -20,6 +20,7 @@ const MainHeader = () => {
                         <Nav.Link> <Link to="/">Home</Link> </Nav.Link>
                         <Nav.Link> <Link to="/store">Store</Link></Nav.Link>
                         <Nav.Link>  <Link to="/about">About</Link> </Nav.Link>
+                        <Nav.Link>  <Link to="/contact">Contact Us</Link> </Nav.Link>
                     </Nav>
 
                     <Button variant="primary" onClick={() => setModal(true)}>
