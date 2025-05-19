@@ -9,7 +9,11 @@ const Contact = () => {
         phone: ""
     })
 
-    const handleSubmit = async () =>{
+    const handleSubmit = async (event) =>{
+      event.preventDefault()
+
+    try{
+
         const response = await fetch("https://e-commerce-2496-default-rtdb.asia-southeast1.firebasedatabase.app/contact.json",{
             method: "POST",
             body: JSON.stringify(formData),
@@ -18,8 +22,24 @@ const Contact = () => {
             }
         });
 
+        if(!response.ok) {
+          throw new Error("Something went wrong")
+        }
+
         const data = await response.json();
         console.log(data)
+
+      }
+      catch(error){
+        console.log(error.message)
+      }
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: ""
+      })
+      
     }
 
     const handleChange = (e) => {

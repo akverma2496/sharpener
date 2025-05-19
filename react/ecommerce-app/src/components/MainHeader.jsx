@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const MainHeader = () => {
 
-    const {modal, setModal, cartItems, setCartItems} = useContext(ProductContext)
+    const { modal, setModal, cartItems, setCartItems } = useContext(ProductContext)
 
     return (
         <>
@@ -16,11 +16,18 @@ const MainHeader = () => {
 
                     <Navbar.Brand href="#home">E-Commerce</Navbar.Brand>
 
-                    <Nav className="me-auto">
+                    {/* <Nav className="me-auto">
                         <Nav.Link> <Link to="/">Home</Link> </Nav.Link>
                         <Nav.Link> <Link to="/store">Store</Link></Nav.Link>
                         <Nav.Link>  <Link to="/about">About</Link> </Nav.Link>
                         <Nav.Link>  <Link to="/contact">Contact Us</Link> </Nav.Link>
+                    </Nav> */}
+
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/store">Store</Nav.Link>
+                        <Nav.Link as={Link} to="/about">About</Nav.Link>
+                        <Nav.Link as={Link} to="/contact">Contact Us</Nav.Link>
                     </Nav>
 
                     <Button variant="primary" onClick={() => setModal(true)}>
@@ -28,7 +35,7 @@ const MainHeader = () => {
                         <span className="visually-hidden">unread messages</span>
                     </Button>
 
-                    {modal && createPortal(<MyModal modal={modal} setModal={setModal} cartItems={cartItems} setCartItems={setCartItems}/>, document.getElementById("modal"))}
+                    {modal && createPortal(<MyModal modal={modal} setModal={setModal} cartItems={cartItems} setCartItems={setCartItems} />, document.getElementById("modal"))}
                 </Container>
             </Navbar>
 
