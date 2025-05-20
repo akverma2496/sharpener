@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Button, Container, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/AuthProvider';
 const apiKey = import.meta.env.VITE_API_KEY
 
 const LoginPage = () => {
+
+  const authValues = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
     // Handle login logic here
-    console.log('Login:', { email, password });
 
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,{
       method: "POST",
@@ -32,8 +36,10 @@ const LoginPage = () => {
     }
     else{
       const data = await response.json();
+      authValues.setIdToken(data.idToken)
+      authValues.setIsLoggedIn(true)
+      navigate("/products")
       console.log(data)
-      alert(data)
     }
   };
 

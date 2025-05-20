@@ -3,11 +3,20 @@ import { Navbar, Container, Nav, Button, Badge } from 'react-bootstrap'
 import { ProductContext } from '../store/ProductProvider'
 import { createPortal } from 'react-dom'
 import MyModal from './MyModal'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../store/AuthProvider'
 
 const MainHeader = () => {
 
     const { modal, setModal, cartItems, setCartItems } = useContext(ProductContext)
+    const authValues = useContext(AuthContext)
+    const navigate = useNavigate();
+
+    const cleanUpHandler = () => {
+        authValues.setIsLoggedIn(false)
+        authValues.setIdToken(null)
+        navigate("/login")
+    }
 
     return (
         <>
@@ -31,11 +40,17 @@ const MainHeader = () => {
                     </Nav>
 
                     <Nav>
-                        <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
-                        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                        {
+                            authValues.isLoggedIn ?
+                                <Nav.Link as={Link} to="/login" onClick={cleanUpHandler}>Logout</Nav.Link> :
+                                <>
+                                    <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
+                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                                </>
+                        }
                     </Nav>
 
-                    <Button style={{marginLeft: "10px"}} variant="primary" onClick={() => setModal(true)}>
+                    <Button style={{ marginLeft: "10px" }} variant="primary" onClick={() => setModal(true)}>
                         Cart <Badge bg="secondary">{cartItems.length}</Badge>
                         <span className="visually-hidden">unread messages</span>
                     </Button>
