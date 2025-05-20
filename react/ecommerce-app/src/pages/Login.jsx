@@ -1,15 +1,40 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+const apiKey = import.meta.env.VITE_API_KEY
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // Handle login logic here
     console.log('Login:', { email, password });
+
+    const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,{
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    if(!response.ok){
+      console.log(response)
+      const {error} = await response.json()
+      console.log(error.message)
+      alert(error.message)
+    }
+    else{
+      const data = await response.json();
+      console.log(data)
+      alert(data)
+    }
   };
 
   return (
