@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Store from '../src/pages/Store';
+import Products from '../src/pages/Products';
 import Home from '../src/pages/Home';
 import Layout from '../src/pages/Layout';
 import About from "../src/pages/About";
 import Contact from './pages/Contact';
 import ProductDetail from './pages/ProductDetail';
+import SignupPage from './pages/Signup';
+import LoginPage from './pages/Login';
 
 function App() {
 
@@ -14,10 +16,12 @@ function App() {
         <Route path="/" element={<Layout />}>
         {/* what will go in the outlet */}
           <Route index element={<Home />} />
-          <Route path='store' element={<Store />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path='products' element={<Products />} />
           <Route path="products/:id" element={<ProductDetail />} />
+          <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

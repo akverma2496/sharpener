@@ -25,12 +25,17 @@ const MainHeader = () => {
 
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link as={Link} to="/store">Store</Nav.Link>
+                        <Nav.Link as={Link} to="/products">Products</Nav.Link>
                         <Nav.Link as={Link} to="/about">About</Nav.Link>
                         <Nav.Link as={Link} to="/contact">Contact Us</Nav.Link>
                     </Nav>
 
-                    <Button variant="primary" onClick={() => setModal(true)}>
+                    <Nav>
+                        <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
+                        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                    </Nav>
+
+                    <Button style={{marginLeft: "10px"}} variant="primary" onClick={() => setModal(true)}>
                         Cart <Badge bg="secondary">{cartItems.length}</Badge>
                         <span className="visually-hidden">unread messages</span>
                     </Button>
