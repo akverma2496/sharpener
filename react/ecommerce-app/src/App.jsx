@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import ProductDetail from './pages/ProductDetail';
 import SignupPage from './pages/Signup';
 import LoginPage from './pages/Login';
+import ChangePassword from "./pages/ChangePassword"
 
 function App() {
 
@@ -21,7 +22,8 @@ function App() {
           <Route path='products' element={<Products />} />
           <Route path="products/:id" element={<ProductDetail />} />
           <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

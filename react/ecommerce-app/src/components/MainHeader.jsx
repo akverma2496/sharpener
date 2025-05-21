@@ -42,7 +42,12 @@ const MainHeader = () => {
                     <Nav>
                         {
                             authValues.isLoggedIn ?
-                                <Nav.Link as={Link} to="/login" onClick={cleanUpHandler}>Logout</Nav.Link> :
+
+                                <>
+                                <Nav.Link as={Link} to="/login" onClick={cleanUpHandler}>Logout</Nav.Link> 
+                                <Nav.Link as={Link} to="/change-password">Change Password</Nav.Link> 
+                                </>
+                                :
                                 <>
                                     <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
                                     <Nav.Link as={Link} to="/login">Login</Nav.Link>
