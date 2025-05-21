@@ -36,6 +36,7 @@ const LoginPage = () => {
     }
     else{
       const data = await response.json();
+      localStorage.setItem("idToken", data.idToken)
       authValues.setIdToken(data.idToken)
       authValues.setIsLoggedIn(true)
       navigate("/products")

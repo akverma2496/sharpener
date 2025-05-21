@@ -15,6 +15,7 @@ const MainHeader = () => {
     const cleanUpHandler = () => {
         authValues.setIsLoggedIn(false)
         authValues.setIdToken(null)
+        localStorage.clear();
         navigate("/login")
     }
 

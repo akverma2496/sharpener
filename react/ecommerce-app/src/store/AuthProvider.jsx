@@ -4,8 +4,8 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 
-    const [idToken, setIdToken] = useState(null)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [idToken, setIdToken] = useState(localStorage.getItem("idToken"))
+    const [isLoggedIn, setIsLoggedIn] = useState(!!idToken)
 
     const authValues = {
         idToken : idToken,
