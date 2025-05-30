@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Signup from "./pages/Signup"
 import Login from './pages/Login';
 import Home from './pages/Home';
+import CompleteProfile from './pages/CompleteProfile';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path='/home' element={<Home />} />
+          <Route path='/complete-profile' element={<CompleteProfile />} />
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           
     

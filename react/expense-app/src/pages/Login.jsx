@@ -47,12 +47,15 @@ const Login = () => {
             variant: "success",
             message: "Logged in successfully"
         })
-      const data = await response.json();
+      setTimeout(async () => {
+        const data = await response.json();
       localStorage.setItem("idToken", data.idToken)
       //authValues.setIdToken(data.idToken)
       //authValues.setIsLoggedIn(true)
       navigate("/home")
       setAlert({ variant: "", message: ""})
+
+      },2000)
     }
   };
 
@@ -64,27 +67,6 @@ const Login = () => {
           <Alert key={alert.variant} variant={alert.variant}>{alert.message}</Alert>
           <Form onSubmit={handleLogin}>
             
-            {/* <Form.Group className="mb-3" controlId="loginEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group> */}
-
-            {/* <Form.Group className="mb-3" controlId="loginPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Form.Group> */}
 
             <FormItem id={"loginEmail"} label={"Email Address"} type={"email"} placeholder={"EnterEmail"} value={email} onChange={(e) => setEmail(e.target.value)} />
             <FormItem id={"loginPassword"} label={"Password"} type={"password"} placeholder={"EnterPassWord"} value={password} onChange={(e) => setPassword(e.target.value)} />
