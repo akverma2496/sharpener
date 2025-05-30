@@ -37,11 +37,15 @@ const CompleteProfile = () => {
                 }, 2000)
             }
             else {
-                console.log("successful")
+                const data = await response.json()
+                console.log("successful", data)
                 setAlert({
                     variant: "success",
                     message: "Logged in successfully"
                 })
+                const user = firebase.auth().currentUser;
+                console.log("Display Name:", user.displayName);
+                console.log("Photo URL:", user.photoURL);
             }
         }
         catch (err) {
