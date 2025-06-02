@@ -24,6 +24,7 @@ const Signup = () => {
             "Content-Type": "application/json"
         }
     })
+
   }
 
   return (

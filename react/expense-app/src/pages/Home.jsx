@@ -40,8 +40,8 @@ const Home = () => {
   },[])
   return (
     <>
-    {user.emailVerified && <VerifyEmail/>}
-    {user.displayName && <CompleteProfile />}
+    {user.emailVerified && <VerifyEmail setUser={setUser}/>}
+    {user.displayName && <CompleteProfile setUser={setUser}/>}
     {!user.emailVerified && !user.displayName && <MainView />}
     </>
   )

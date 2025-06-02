@@ -1,19 +1,44 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { ExpenseContext } from '../store/ExpenseProvider';
 
-const ExpenseForm = ({ onAddExpense }) => {
+const ExpenseForm = (props) => {
+
+  const {setAllExpenses} = useContext(ExpenseContext)
+
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Petrol');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const expense = {
       amount: parseFloat(amount),
       description,
       category
     };
-   // onAddExpense(expense);
+   
+    try{
+      const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json`,{
+        method: "POST",
+        body: JSON.stringify(expense),
+        headers :{ "Content-Type" : "application/json"}
+      })
+
+      const data = await response.json()
+      console.log(data)
+
+      setAllExpenses((prev) => {
+        return {
+          ...prev,
+          [data.name] :expense
+        }
+      })
+
+    }
+    catch(err){
+
+    }
     setAmount('');
     setDescription('');
     setCategory('Petrol');

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Card, Container, Button, Alert, Form } from 'react-bootstrap'
 import FormItem from './FormItem'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 const apiKey = import.meta.env.VITE_API_KEY
 
-const CompleteProfile = (props) => {
+const CompleteProfile = () => {
 
     const [name, setName] = useState("")
     const [url, setUrl] = useState("")
+    const navigate = useNavigate()
 
     const [alert, setAlert] = useState({
         variant: "",
@@ -42,8 +43,12 @@ const CompleteProfile = (props) => {
                 console.log("successful", data)
                 setAlert({
                     variant: "success",
-                    message: "Logged in successfully"
+                    message: "Profile Completed"
                 })
+
+                setTimeout(() => {
+                    setAlert({ variant: "", message: "" })
+                },2000)
 
                 console.log("Display Name:", user.displayName);
                 console.log("Photo URL:", user.photoURL);

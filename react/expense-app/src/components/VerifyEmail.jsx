@@ -3,7 +3,7 @@ import { Button, Alert } from 'react-bootstrap';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
-const VerifyEmail = () => {
+const VerifyEmail = (props) => {
 
   const [emailVerified, setEmailVerified] = useState(false);
 
@@ -22,11 +22,19 @@ const VerifyEmail = () => {
         const data = await response.json()
         console.log(data)
         setEmailVerified(true);
+        // setTimeout(() => {
+        //   props.setUser((prev) => {
+        //   return {
+        //     ...prev,
+        //     emailVerified: false
+        //   }
+        // })
+        // },2000)
+        
     }
     catch(err){
 
     }
-    setErrorMessage('');
   };
 
   return (
