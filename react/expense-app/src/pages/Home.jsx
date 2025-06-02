@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import VerifyEmail from '../components/VerifyEmail'
 import CompleteProfile from '../components/CompleteProfile'
+import MainView from '../components/MainView'
 
 const apiKey = import.meta.env.VITE_API_KEY
 
@@ -41,7 +42,8 @@ const Home = () => {
     <>
     {user.emailVerified && <VerifyEmail/>}
     {user.displayName && <CompleteProfile />}
-    </> 
+    {!user.emailVerified && !user.displayName && <MainView />}
+    </>
   )
 }
 
