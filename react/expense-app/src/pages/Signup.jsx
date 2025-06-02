@@ -30,8 +30,9 @@ const Signup = () => {
     <Container className="d-flex justify-content-center align-items-center my-5" style={{ minHeight: '50vh',paddingTop: '100px' }}>
       <Card style={{ width: '24rem' }}>
         <Card.Body>
-          <Card.Title className="text-center mb-4">Sign Up</Card.Title>
+          <Card.Title className="text-center mb-4">Create Account</Card.Title>
           <Form onSubmit={handleSignup}>
+            
             <Form.Group className="mb-3" controlId="signupEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control

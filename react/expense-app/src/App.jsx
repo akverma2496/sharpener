@@ -1,47 +1,46 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Signup from "./pages/Signup"
 import Login from './pages/Login';
 import Home from './pages/Home';
-import CompleteProfile from './pages/CompleteProfile';
-
+import Layout from './pages/Layout';
+import { useContext } from 'react';
+import { AuthContext } from './store/AuthProvider';
 
 function App() {
+
+  const {loggedIn} = useContext(AuthContext)
 
   return (
     <>
       <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Signup />} />
-          {/* what will go in the outlet */}
-          {/* <Route index element={<LoginPage />} />
-          <Route path='/home' element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} /> */}
+        <Routes>
+          <Route path="/" element={<Layout />} >
+            {/* what will go in the outlet */}
+            {/* default index route */}
+            <Route index element={<Login />} />
 
-          {/* <Route path='/products' element={<Products />} /> */}
+            {/* Public Routes */}
+            <Route path="/signup" element={!loggedIn ? <Signup /> : <Navigate to="/home" replace />} /> 
+            <Route path="/login" element={!loggedIn ? <Login /> : <Navigate to="/home" replace />} />
 
+            {/* protected route */}
+            <Route path="/home" element={ loggedIn ? <Home /> : <Navigate to="/login" replace /> } />
+
+          </Route>
+        </Routes>
+      </BrowserRouter>
+
+      {/* <Route path='/products' element={<Products />} /> */}
           {/* <Route exact path="/products">
             {authValues.isLoggedIn ?  <Products /> : <Redirect to="/" />}
           </Route> */}
-
           {/* <Route path="products/:id" element={<ProductDetail />} /> */}
-
           {/* <Route exact path="/products/:id">
             {authValues.isLoggedIn ? <ProductDetail /> : <Redirect to="/" /> }
           </Route> */}
-
           {/* <Route path="/products" element={authValues.isLoggedIn ? <Products /> : <Navigate to="/" />} />
           <Route path="/products/:id" element={authValues.isLoggedIn ? <ProductDetail /> : <Navigate to="/" />} /> */}
-
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/complete-profile' element={<CompleteProfile />} />
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
-          
-    
-      </Routes>
-    </BrowserRouter>
 
     </>
   )

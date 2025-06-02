@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Card, Container, Button, Alert, Form } from 'react-bootstrap'
-import FormItem from '../components/FormItem'
+import FormItem from './FormItem'
 import { Link } from 'react-router-dom'
 const apiKey = import.meta.env.VITE_API_KEY
 
-const CompleteProfile = () => {
+const CompleteProfile = (props) => {
 
     const [name, setName] = useState("")
     const [url, setUrl] = useState("")
@@ -15,6 +15,7 @@ const CompleteProfile = () => {
     })
 
     const handleCompleteProfile = async (event) => {
+
         event.preventDefault()
         try {
             const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`, {
@@ -43,7 +44,7 @@ const CompleteProfile = () => {
                     variant: "success",
                     message: "Logged in successfully"
                 })
-                const user = firebase.auth().currentUser;
+
                 console.log("Display Name:", user.displayName);
                 console.log("Photo URL:", user.photoURL);
             }
@@ -57,7 +58,8 @@ const CompleteProfile = () => {
     }
 
     return (
-        <Container className="d-flex justify-content-center align-items-center my-5" style={{ minHeight: '50vh', paddingTop: '100px' }}>
+
+            <Container className="d-flex justify-content-center align-items-center my-5" style={{ minHeight: '50vh', paddingTop: '100px' }}>
             <Card style={{ width: '24rem' }}>
 
                 <Card.Body>
@@ -68,12 +70,13 @@ const CompleteProfile = () => {
                     <Form onSubmit={handleCompleteProfile}>
                         <FormItem id={"name"} label={"Enter your name"} type={"text"} placeholder={"Write your name..."} value={name} onChange={(e) => setName(e.target.value)} />
                         <FormItem id={"photo"} label={"Photo URL"} type={"text"} placeholder={"Paste your url here..."} value={url} onChange={(e) => setUrl(e.target.value)} />
-                        <Button variant="success" type="submit" className="w-100">Complete</Button>
+                        <Button variant="primary" type="submit" className="w-100">Complete</Button>
                     </Form>
 
                 </Card.Body>
             </Card>
         </Container>
+        
     )
 }
 

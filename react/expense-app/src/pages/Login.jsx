@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Form, Button, Container, Card, FormGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-//import { AuthContext } from '../store/AuthProvider';
+import { AuthContext } from '../store/AuthProvider';
 import FormItem from '../components/FormItem';
 import Alert from 'react-bootstrap/Alert';
 
@@ -9,7 +9,7 @@ const apiKey = import.meta.env.VITE_API_KEY
 
 const Login = () => {
 
-  //const authValues = useContext(AuthContext);
+  const {setLoggedIn} = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -43,15 +43,14 @@ const Login = () => {
       },2000)
     }
     else{
+        const data = await response.json();
+        localStorage.setItem("idToken", data.idToken)
+        setLoggedIn(true)
         setAlert({
             variant: "success",
             message: "Logged in successfully"
         })
       setTimeout(async () => {
-        const data = await response.json();
-      localStorage.setItem("idToken", data.idToken)
-      //authValues.setIdToken(data.idToken)
-      //authValues.setIsLoggedIn(true)
       navigate("/home")
       setAlert({ variant: "", message: ""})
 

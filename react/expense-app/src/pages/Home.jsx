@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import VerifyEmail from '../components/VerifyEmail'
+import CompleteProfile from '../components/CompleteProfile'
 
 const apiKey = import.meta.env.VITE_API_KEY
 
 const Home = () => {
 
-  const [isProfileCompleted, setIsProfileCompleted] = useState(false)
-
+  const [user, setUser] = useState({
+    emailVerified : false,
+    displayName: ""
+  })
+  
   useEffect(() => {
     const checkForUser = async() => {
       try{
@@ -15,21 +21,26 @@ const Home = () => {
           body: JSON.stringify({ idToken : localStorage.getItem("idToken")}),
           headers: { "Content-Type" : "application/json"}
         })
+
+        if(!response.ok) console.log("response is not ok")
         const {users} = await response.json()
-        if(!users[0].displayName) setIsProfileCompleted(true)
-  
+        console.log(users)
+        setUser({
+          emailVerified : !users[0].emailVerified,
+          displayName : !users[0].displayName
+        })
       }
       catch(err){
 
       }
     }
-
+    
     checkForUser()
   },[])
   return (
     <>
-    <div>Welcome to the HomePage</div>
-    {isProfileCompleted && <Link to="/complete-profile">Complete your profile</Link>}
+    {user.emailVerified && <VerifyEmail/>}
+    {user.displayName && <CompleteProfile />}
     </> 
   )
 }
