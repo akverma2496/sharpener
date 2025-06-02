@@ -19,6 +19,40 @@ const Login = () => {
     message: ""
   })
 
+  const forgotPasswordHandler = async () => {
+    try{
+      const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiKey}`,{
+      method : "POST",
+      body: JSON.stringify({
+        requestType: "PASSWORD_RESET",
+        email: email
+      })
+    })
+
+    if(!response.ok){
+      const {error} = await response.json()
+      console.log(error)
+      throw error;
+    }
+    else{
+      setAlert({ variant: "success", message: "Please check your email" })
+      setTimeout(() => {
+        setAlert({variant: "",message: ""})
+      },2000)
+    }
+    }
+    catch(err){
+      setAlert({
+        variant: "danger",
+        message: err.message
+      })
+      setTimeout(() => {
+        setAlert({variant: "",message: ""})
+      },2000)
+    }
+    
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     // Handle login logic here
@@ -69,6 +103,8 @@ const Login = () => {
 
             <FormItem id={"loginEmail"} label={"Email Address"} type={"email"} placeholder={"EnterEmail"} value={email} onChange={(e) => setEmail(e.target.value)} />
             <FormItem id={"loginPassword"} label={"Password"} type={"password"} placeholder={"EnterPassWord"} value={password} onChange={(e) => setPassword(e.target.value)} />
+
+          <p style={{textAlign: "center", marginTop: "10px"}}onClick={forgotPasswordHandler}><Link>Forgot Password?</Link></p>
 
             <Button variant="success" type="submit" className="w-100">
               Log In
