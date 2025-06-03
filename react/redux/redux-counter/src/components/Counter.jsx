@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { counterActions } from '../store/store';
 
 const CounterComponent = () => {
 
@@ -7,9 +8,13 @@ const CounterComponent = () => {
   const show = useSelector(state => state.showCounter)
   const dispatch = useDispatch();
 
-  const increment = () => dispatch({type : "increment"})
-  const decrement = () => dispatch({type : "decrement"})
-  const toggleCounter = () => dispatch({type : "toggle"})
+  // const increment = () => dispatch({type : "increment"})
+  // const decrement = () => dispatch({type : "decrement"})
+  // const toggleCounter = () => dispatch({type : "toggle"})
+
+  const increment = () => dispatch(counterActions.increment())
+  const decrement = () => dispatch(counterActions.decrement())
+  const toggleCounter = () => dispatch(counterActions.toggleCounter())
 
   const cardStyle = {
     width: '300px',
