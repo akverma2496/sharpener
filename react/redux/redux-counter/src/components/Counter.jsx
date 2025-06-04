@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { counterActions } from '../store/store';
+import { counterActions } from '../store/counter-slice';
 
 const CounterComponent = () => {
 
-  const counter = useSelector(state => state.counter)
-  const show = useSelector(state => state.showCounter)
+  const counter = useSelector(state => state.counter.counter)
+  const show = useSelector(state => state.counter.showCounter)
   const dispatch = useDispatch();
 
   // const increment = () => dispatch({type : "increment"})
