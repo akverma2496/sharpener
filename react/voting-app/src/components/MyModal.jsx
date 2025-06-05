@@ -1,28 +1,40 @@
 import React, { useContext, useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { DataContext } from "../store/DataProvider";
 
 const MyModal = ({ modal, setModal }) => {
 
+  const [validated, setValidated] = useState(false);
   const [studentName, setStudentName] = useState("");
   const [selectedOption, setSelectedOption] = useState("Amar");
+  const { monitorData, setMonitorData } = useContext(DataContext)
 
-  const data = useContext(DataContext)
+  const handleVote = async (e) => {
 
-  const handleVote = () => {
+    e.preventDefault(); // prevent default submit immediately
 
-    data.setMonitorData((prevState) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+      return;  // stop further processing if invalid
+    }
 
-      let index = prevState.findIndex((s) => s.candidate === selectedOption)
-      let updatedState = [...prevState]
-      let target = {...updatedState[index]}
-      target.votes = [...target.votes, studentName]
-      updatedState[index] = target
-      
-      console.log(updatedState)
-      return updatedState
+    setValidated(true);
 
-    })
+    let copyMonitorData = { ...monitorData }
+    copyMonitorData[selectedOption].push(studentName)
+    setMonitorData(copyMonitorData)
+
+    try {
+      await fetch(`https://vote-app-7afce-default-rtdb.asia-southeast1.firebasedatabase.app/votingData.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify(copyMonitorData),
+          headers: { "Content-Type": "application/json" }
+        })
+    } catch (error) { }
+
     setModal(false);
   };
 
@@ -34,15 +46,22 @@ const MyModal = ({ modal, setModal }) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleVote} noValidate validated={validated}>
+          
           <Form.Group controlId="studentName" className="mb-3">
             <Form.Label>Student Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter student name"
-              value={studentName}
-              onChange={(e) => setStudentName(e.target.value)}
-            />
+            <InputGroup hasValidation>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Enter student name"
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a name.
+              </Form.Control.Feedback>
+            </InputGroup>
           </Form.Group>
 
           <Form.Group controlId="selectOption" className="mb-3">
@@ -57,18 +76,19 @@ const MyModal = ({ modal, setModal }) => {
               <option value="Amarinder">Amarinder</option>
             </Form.Select>
           </Form.Group>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit">
+              Vote
+            </Button>
+          </Modal.Footer>
+
         </Form>
+
       </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="secondary" onClick={() => setModal(false)}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={handleVote}>
-          Vote
-        </Button>
-      </Modal.Footer>
-
     </Modal>
   );
 };
