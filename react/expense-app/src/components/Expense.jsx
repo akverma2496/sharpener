@@ -3,28 +3,25 @@ import { Card, Button } from 'react-bootstrap';
 import { createPortal } from 'react-dom';
 import MyModal from './MyModal';
 import { ExpenseContext } from '../store/ExpenseProvider';
+import { AuthContext } from '../store/AuthProvider';
 
 const Expense = ({id, item}) => {
 
   const { allExpenses, setAllExpenses } = useContext(ExpenseContext)
-
+  const {userId} = useContext(AuthContext)
   const [modal, setModal] = useState(false)
 
   const deleteExpense = async () => {
     try{
-      const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${id}.json`,{
+      const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${userId}/${id}.json`,{
         method : "DELETE"
       })
     }
-    catch(err){
-
-    }
+    catch(err){}
 
     const filteredExpenses = Object.entries(allExpenses).filter(([key, value]) => {
       return id !== key
     })
-
-    console.log(filteredExpenses)
 
     const finalfiltered = Object.fromEntries(filteredExpenses)
     setAllExpenses(finalfiltered)

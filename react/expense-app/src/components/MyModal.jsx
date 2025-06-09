@@ -1,12 +1,14 @@
 import React, {useContext, useState} from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
 import { ExpenseContext } from '../store/ExpenseProvider';
+import { AuthContext } from '../store/AuthProvider';
 
 const MyModal = ({modal, setModal, item, id}) => {
 
     const {allExpenses, setAllExpenses} = useContext(ExpenseContext)
+    const { userId } = useContext(AuthContext)
 
-    const [amount, setAmount] = useState(item.amount);
+  const [amount, setAmount] = useState(item.amount);
   const [description, setDescription] = useState(item.description);
   const [category, setCategory] = useState(item.category);
 
@@ -15,7 +17,7 @@ const MyModal = ({modal, setModal, item, id}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${id}.json`,{
+    const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${userId}/${id}.json`,{
       method : "PUT",
       body: JSON.stringify({
         amount : amount,

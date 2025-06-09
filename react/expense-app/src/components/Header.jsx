@@ -11,7 +11,10 @@ const Header = () => {
   const logoutHandler = () => {
     authValues.setLoggedIn(false)
     authValues.setIdToken(null)
+    authValues.setUserId("")
     localStorage.removeItem("idToken")
+    localStorage.removeItem("refreshToken")
+    localStorage.removeItem("userId")
     navigate("/login")
   }
 

@@ -15,7 +15,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />} >
+
             {/* what will go in the outlet */}
+            
             {/* default index route */}
             <Route index element={<Login />} />
 
@@ -24,23 +26,11 @@ function App() {
             <Route path="/login" element={!loggedIn ? <Login /> : <Navigate to="/home" replace />} />
 
             {/* protected route */}
-            <Route path="/home" element={ loggedIn ? <Home /> : <Navigate to="/login" replace /> } />
+            <Route path="/home" element={ loggedIn || localStorage.getItem("idToken") ? <Home /> : <Navigate to="/login" replace /> } />
 
           </Route>
         </Routes>
       </BrowserRouter>
-
-      {/* <Route path='/products' element={<Products />} /> */}
-          {/* <Route exact path="/products">
-            {authValues.isLoggedIn ?  <Products /> : <Redirect to="/" />}
-          </Route> */}
-          {/* <Route path="products/:id" element={<ProductDetail />} /> */}
-          {/* <Route exact path="/products/:id">
-            {authValues.isLoggedIn ? <ProductDetail /> : <Redirect to="/" /> }
-          </Route> */}
-          {/* <Route path="/products" element={authValues.isLoggedIn ? <Products /> : <Navigate to="/" />} />
-          <Route path="/products/:id" element={authValues.isLoggedIn ? <ProductDetail /> : <Navigate to="/" />} /> */}
-          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
 
     </>
   )

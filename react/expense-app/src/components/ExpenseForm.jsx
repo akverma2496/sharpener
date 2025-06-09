@@ -1,16 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { ExpenseContext } from '../store/ExpenseProvider';
+import { AuthContext } from '../store/AuthProvider';
 
 const ExpenseForm = (props) => {
 
-  const {setAllExpenses} = useContext(ExpenseContext)
+  const {allExpenses, setAllExpenses} = useContext(ExpenseContext)
+  const {userId} = useContext(AuthContext)
 
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Petrol');
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     const expense = {
       amount: parseFloat(amount),
@@ -19,26 +22,20 @@ const ExpenseForm = (props) => {
     };
    
     try{
-      const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json`,{
+      const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${userId}.json`,{
         method: "POST",
         body: JSON.stringify(expense),
         headers :{ "Content-Type" : "application/json"}
       })
 
       const data = await response.json()
-      console.log(data)
+      console.log("here we get some id",data)
 
-      setAllExpenses((prev) => {
-        return {
-          ...prev,
-          [data.name] :expense
-        }
-      })
+      setAllExpenses((prev) => ({...prev, [data.name]: expense}))
 
     }
-    catch(err){
+    catch(err){}
 
-    }
     setAmount('');
     setDescription('');
     setCategory('Petrol');

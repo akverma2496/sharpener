@@ -6,12 +6,15 @@ const AuthProvider = (props) => {
 
     const [idToken, setIdToken] = useState(localStorage.getItem("idToken"));
     const [loggedIn, setLoggedIn] = useState(!!idToken)
+    const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
     const authValues = {
-        idToken: idToken,
-        setIdToken: setIdToken,
-        loggedIn: loggedIn,
-        setLoggedIn: setLoggedIn
+        idToken,
+        setIdToken,
+        loggedIn,
+        setLoggedIn,
+        userId,
+        setUserId
     }
 
   return (

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Card, Container, Button, Alert, Form } from 'react-bootstrap'
 import FormItem from './FormItem'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 const apiKey = import.meta.env.VITE_API_KEY
 
-const CompleteProfile = () => {
+const CompleteProfile = ({setRefreshUser}) => {
 
     const [name, setName] = useState("")
     const [url, setUrl] = useState("")
@@ -18,6 +18,7 @@ const CompleteProfile = () => {
     const handleCompleteProfile = async (event) => {
 
         event.preventDefault()
+
         try {
             const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`, {
                 method: "POST",
@@ -25,13 +26,12 @@ const CompleteProfile = () => {
                     idToken: localStorage.getItem("idToken"),
                     displayName: name,
                     photoUrl: url,
-                    returnSecureToken: false
+                    returnSecureToken: true
                 }),
                 headers: { "Content-Type": "application/json" }
             })
 
             if (!response.ok) {
-                console.log("Error")
                 const { error } = await response.json()
                 setAlert({ variant: "danger", message: error.message })
                 setTimeout(() => {
@@ -40,7 +40,7 @@ const CompleteProfile = () => {
             }
             else {
                 const data = await response.json()
-                console.log("successful", data)
+
                 setAlert({
                     variant: "success",
                     message: "Profile Completed"
@@ -48,15 +48,12 @@ const CompleteProfile = () => {
 
                 setTimeout(() => {
                     setAlert({ variant: "", message: "" })
+                    setRefreshUser(prev => !prev);
+                    navigate("/login")
                 },2000)
-
-                console.log("Display Name:", user.displayName);
-                console.log("Photo URL:", user.photoURL);
             }
         }
-        catch (err) {
-
-        }
+        catch (err) {}
 
         setName("")
         setUrl("")
@@ -70,7 +67,7 @@ const CompleteProfile = () => {
                 <Card.Body>
                     <Card.Title className="text-center mb-4">Complete Your Profile</Card.Title>
 
-                    <Alert key={alert.variant} variant={alert.variant}>{alert.message}</Alert>
+                    {alert.message && <Alert key={alert.variant} variant={alert.variant}>{alert.message}</Alert>}
 
                     <Form onSubmit={handleCompleteProfile}>
                         <FormItem id={"name"} label={"Enter your name"} type={"text"} placeholder={"Write your name..."} value={name} onChange={(e) => setName(e.target.value)} />
