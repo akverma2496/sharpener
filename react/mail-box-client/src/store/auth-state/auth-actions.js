@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export const signUpUser = createAsyncThunk(
@@ -7,7 +8,7 @@ export const signUpUser = createAsyncThunk(
     async ({ email, password }, { rejectWithValue }) => {
         try {
 
-            const data = await axios.post(
+            const { data } = await axios.post(
                 `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
                 {
                     email, password,
@@ -18,29 +19,45 @@ export const signUpUser = createAsyncThunk(
                 }
             );
 
-
-            // response.status → HTTP status code(e.g., 200, 404)
-            // response.data → Actual response body
-            // response.headers → Response headers
-            // response.statusText → Status text(e.g., "OK", "Not Found")
-            console.log(data)
-            localStorage.setItem("idToken", data.idToken);
-            localStorage.setItem("localId", data.localId);
-            localStorage.setItem("refreshToken", data.refreshToken);
+            localStorage.setItem("auth", JSON.stringify({idToken : data.idToken, localId : data.localId, email: data.email}));
 
             return {
                 idToken: data.idToken,
                 localId: data.localId,
+                email: data.email
             };
 
-        } catch (err) {
-            // if (err.response) {
-            //     console.log('Error status:', err.response.status); // e.g., 400
-            //     console.log('Error data:', err.response.data);
-            // }
-            console.log(err)
-            console.log(err.response.data)
-            return rejectWithValue(err.response.data.error.message);
+        } catch (error) {  
+            return rejectWithValue(error.response.data.error.message);
         }
     }
 );
+
+export const loginUser = createAsyncThunk(
+    "auth/loginUser",
+    async({email, password}, {rejectWithValue}) => {
+        try {
+            const { data } = await axios.post(
+                `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+                {
+                    email, password,
+                    returnSecureToken : false
+                },
+                {
+                    headers : { "Content-Type" : "application/json"}
+                }
+            );
+
+            localStorage.setItem("auth", JSON.stringify({idToken : data.idToken, localId : data.localId, email: data.email}));
+
+            return {
+                idToken: data.idToken,
+                localId: data.localId,
+                email: data.email
+            };
+
+        } catch (error) {
+            return rejectWithValue(error.response.data.error.message);
+        }
+    }
+)
