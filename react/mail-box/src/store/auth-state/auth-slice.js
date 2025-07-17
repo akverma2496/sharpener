@@ -6,16 +6,26 @@ const authSlice = createSlice({
   initialState: {
     loading: false,
     idToken: null,
-    localId : null,
     email : null,
     isLoggedIn: false,
+    isHydrated: false
   },
   reducers: {
     logout(state) {
       state.idToken = null,
-      state.localId = null
       state.email = null
       state.isLoggedIn = false
+    },
+
+    setHydrated(state){
+      state.isHydrated = true
+    },
+
+    setAuthFromStorage(state, action){
+      state.idToken = action.payload.idToken;
+      state.email = action.payload.email;
+      state.isLoggedIn = true
+      state.isHydrated = true
     }
   },
 
@@ -30,7 +40,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.isLoggedIn = true;
         state.idToken = action.payload.idToken;
-        state.localId = action.payload.localId;
         state.email = action.payload.email;
       })
       .addCase(signUpUser.rejected, (state, action) => {
@@ -47,7 +56,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.isLoggedIn = true;
         state.idToken = action.payload.idToken;
-        state.localId = action.payload.localId;
         state.email = action.payload.email;
       })
 

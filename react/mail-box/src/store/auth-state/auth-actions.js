@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { authActions } from "./auth-slice";
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export const signUpUser = createAsyncThunk(
@@ -19,15 +20,24 @@ export const signUpUser = createAsyncThunk(
                 }
             );
 
-            localStorage.setItem("auth", JSON.stringify({idToken : data.idToken, localId : data.localId, email: data.email}));
+            const expiresIn = Number(data.expiresIn) * 1000; // in milliseconds
+            const expiresAt = Date.now() + expiresIn;
 
-            return {
+            setTimeout(() => {
+                dispatch(authActions.logout())
+                localStorage.removeItem("auth")
+            }, expiresIn)
+
+            const authData = {
                 idToken: data.idToken,
-                localId: data.localId,
-                email: data.email
-            };
+                email: data.email,
+                expiresAt
+            }
 
-        } catch (error) {  
+            localStorage.setItem("auth", JSON.stringify(authData));
+            return authData
+
+        } catch (error) {
             return rejectWithValue(error.response.data.error.message);
         }
     }
@@ -35,26 +45,37 @@ export const signUpUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
-    async({email, password}, {rejectWithValue}) => {
+    async ({ email, password }, { dispatch, rejectWithValue }) => {
         try {
             const { data } = await axios.post(
                 `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
                 {
                     email, password,
-                    returnSecureToken : false
+                    returnSecureToken: true
                 },
                 {
-                    headers : { "Content-Type" : "application/json"}
+                    headers: { "Content-Type": "application/json" }
                 }
             );
 
-            localStorage.setItem("auth", JSON.stringify({idToken : data.idToken, localId : data.localId, email: data.email}));
+            console.log(data)
 
-            return {
+            const expiresIn = Number(data.expiresIn) * 1000; // in milliseconds
+            const expiresAt = Date.now() + expiresIn;
+
+            setTimeout(() => {
+                dispatch(authActions.logout())
+                localStorage.removeItem("auth")
+            }, expiresIn)
+
+            const authData = {
                 idToken: data.idToken,
-                localId: data.localId,
-                email: data.email
-            };
+                email: data.email,
+                expiresAt
+            }
+
+            localStorage.setItem("auth", JSON.stringify(authData));
+            return authData
 
         } catch (error) {
             return rejectWithValue(error.response.data.error.message);
