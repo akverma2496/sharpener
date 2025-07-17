@@ -4,37 +4,37 @@ import { DataContext } from "../store/DataProvider";
 
 const MonitorList = () => {
 
-    const { monitorData, setMonitorData } = useContext(DataContext)
+  const { monitorData, setMonitorData } = useContext(DataContext)
 
-    const removeVote = async (e) => {
+  const removeVote = async (e) => {
 
-      let id = e.target.id
-      let value = e.target.value
+    let id = e.target.id
+    let value = e.target.value
 
-      let seletedCandidate = monitorData[id]
-      const votes = seletedCandidate.filter((item) => item != value)
-      
-      const copyState = {...monitorData, [id] : [...votes]}
+    let seletedCandidate = monitorData[id]
+    const votes = seletedCandidate.filter((item) => item != value)
 
-      try {
-        const response = await fetch(`https://vote-app-7afce-default-rtdb.asia-southeast1.firebasedatabase.app/votingData.json`, {
-            method: "PUT",
-            body: JSON.stringify(copyState),
-            headers: { "Content-Type" : "application/json" }
-        })
-        
-      } catch (error) {}
+    const copyState = { ...monitorData, [id]: [...votes] }
 
-      setMonitorData(copyState)
-    }
+    try {
+      const response = await fetch(`https://vote-app-7afce-default-rtdb.asia-southeast1.firebasedatabase.app/votingData.json`, {
+        method: "PUT",
+        body: JSON.stringify(copyState),
+        headers: { "Content-Type": "application/json" }
+      })
+
+    } catch (error) { }
+
+    setMonitorData(copyState)
+  }
 
 
-    const cardData = [
-  { id: 1, title: "Amar", total: monitorData["Amar"].length-1, votes: monitorData["Amar"]},
-  { id: 2, title: "Akbar", total: monitorData["Akbar"].length-1, votes: monitorData["Akbar"]},
-  { id: 3, title: "Anthony", total: monitorData["Anthony"].length-1, votes: monitorData["Anthony"]},
-  { id: 4, title: "Amarinder", total: monitorData["Amarinder"].length-1, votes: monitorData["Amarinder"]},
-    ];
+  const cardData = [
+    { id: 1, title: "Amar", total: monitorData["Amar"].length - 1, votes: monitorData["Amar"] },
+    { id: 2, title: "Akbar", total: monitorData["Akbar"].length - 1, votes: monitorData["Akbar"] },
+    { id: 3, title: "Anthony", total: monitorData["Anthony"].length - 1, votes: monitorData["Anthony"] },
+    { id: 4, title: "Amarinder", total: monitorData["Amarinder"].length - 1, votes: monitorData["Amarinder"] },
+  ];
 
 
   return (
@@ -49,12 +49,12 @@ const MonitorList = () => {
 
                 <ListGroup variant="flush">
                   {card.votes.map((item, idx) => (
-                  
-                  (idx != 0) &&
-                  <ListGroup.Item key={idx} className="d-flex justify-content-between align-items-center px-0">
+
+                    (idx != 0) &&
+                    <ListGroup.Item key={idx} className="d-flex justify-content-between align-items-center px-0">
                       {item}
-                      <Button id={card.title} value={item}  variant="danger" size="sm" onClick={removeVote}>Remove</Button>
-                    </ListGroup.Item>                 
+                      <Button id={card.title} value={item} variant="danger" size="sm" onClick={removeVote}>Remove</Button>
+                    </ListGroup.Item>
                   ))}
                 </ListGroup>
 
