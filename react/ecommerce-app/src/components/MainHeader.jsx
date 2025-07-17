@@ -15,26 +15,20 @@ const MainHeader = () => {
     const cleanUpHandler = () => {
         authValues.setIsLoggedIn(false)
         authValues.setIdToken(null)
+        authValues.setUserId("")
         localStorage.clear();
         navigate("/login")
     }
 
     return (
         <>
-            <Navbar bg="dark" data-bs-theme="dark">
+            <Navbar bg="dark" data-bs-theme="dark" fixed='top'>
                 <Container>
 
                     <Navbar.Brand href="#home">E-Commerce</Navbar.Brand>
 
-                    {/* <Nav className="me-auto">
-                        <Nav.Link> <Link to="/">Home</Link> </Nav.Link>
-                        <Nav.Link> <Link to="/store">Store</Link></Nav.Link>
-                        <Nav.Link>  <Link to="/about">About</Link> </Nav.Link>
-                        <Nav.Link>  <Link to="/contact">Contact Us</Link> </Nav.Link>
-                    </Nav> */}
-
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/home">Home</Nav.Link>
                         <Nav.Link as={Link} to="/products">Products</Nav.Link>
                         <Nav.Link as={Link} to="/about">About</Nav.Link>
                         <Nav.Link as={Link} to="/contact">Contact Us</Nav.Link>
@@ -45,21 +39,18 @@ const MainHeader = () => {
                             authValues.isLoggedIn ?
 
                                 <>
-                                <Nav.Link as={Link} to="/login" onClick={cleanUpHandler}>Logout</Nav.Link> 
-                                <Nav.Link as={Link} to="/change-password">Change Password</Nav.Link> 
+                                    <Nav.Link as={Link} to="/login" onClick={cleanUpHandler}>Logout</Nav.Link>
+                                    <Nav.Link as={Link} to="/change-password">Change Password</Nav.Link>
+                                    <Button style={{ marginLeft: "10px" }} variant="primary" onClick={() => setModal(true)}>
+                                        Cart <Badge bg="secondary">{cartItems.length}</Badge>
+                                        <span className="visually-hidden">unread messages</span>
+                                    </Button>
                                 </>
                                 :
-                                <>
-                                    <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
-                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                                </>
+                                //<Nav.Link as={Link} to="/login">Login</Nav.Link>
+                                <Button as={Link} to="/signup" style={{ marginLeft: "10px" }} variant="primary">Create An Account</Button>
                         }
                     </Nav>
-
-                    <Button style={{ marginLeft: "10px" }} variant="primary" onClick={() => setModal(true)}>
-                        Cart <Badge bg="secondary">{cartItems.length}</Badge>
-                        <span className="visually-hidden">unread messages</span>
-                    </Button>
 
                     {modal && createPortal(<MyModal modal={modal} setModal={setModal} cartItems={cartItems} setCartItems={setCartItems} />, document.getElementById("modal"))}
                 </Container>

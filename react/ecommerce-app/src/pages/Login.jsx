@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { Form, Button, Container, Card } from 'react-bootstrap';
+import { Form, Button, Container, Card, FormGroup, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthProvider';
+//import FormItem from '../components/FormItem';
 const apiKey = import.meta.env.VITE_API_KEY
 
 const LoginPage = () => {
@@ -11,6 +12,10 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [alert, setAlert] = useState({
+      variant: "",
+      message: ""
+    })
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,35 +34,48 @@ const LoginPage = () => {
     })
 
     if(!response.ok){
-      console.log(response)
       const {error} = await response.json()
-      console.log(error.message)
-      alert(error.message)
+      setAlert({ variant: "danger", message: error.message })
+      setTimeout(() => { setAlert({ variant: "", message: "" }) }, 2000)
     }
     else{
+
+      setAlert({
+        variant: "success",
+        message: "Logged in successfully"
+      })
+
       const data = await response.json();
+      localStorage.setItem("userId", data.localId)
       localStorage.setItem("idToken", data.idToken)
       authValues.setIdToken(data.idToken)
       authValues.setIsLoggedIn(true)
-      navigate("/products")
-      console.log(data)
+      authValues.setUserId(data.localId)
+      
+
+      setTimeout(() => {
+        setAlert({ variant: "", message: "" })
+        navigate("/products")
+      }, 2000)
     }
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+    <Container className="d-flex justify-content-center align-items-center my-5" style={{ minHeight: '50vh',paddingTop: '100px'}}>
       <Card style={{ width: '24rem' }}>
         <Card.Body>
           <Card.Title className="text-center mb-4">Login</Card.Title>
+          {alert.message && <Alert key={alert.variant} variant={alert.variant}>{alert.message}</Alert>}
           <Form onSubmit={handleLogin}>
+            
             <Form.Group className="mb-3" controlId="loginEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 required
+                onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Group>
 
@@ -72,9 +90,13 @@ const LoginPage = () => {
               />
             </Form.Group>
 
+            {/* <FormItem label={"Email Address"} type={"email"} placeholder={"EnterEmail"} value={email} onChange={(e) => setEmail(e.target.value)} /> */}
+            {/* <FormItem label={"Password"} type={"password"} placeholder={"EnterPassWord"} value={password} onChange={(e) => setPassword(e.target.value)} /> */}
+
             <Button variant="success" type="submit" className="w-100">
               Log In
             </Button>
+            
           </Form>
           <p style={{textAlign: "center", marginTop: "10px"}}>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </Card.Body>

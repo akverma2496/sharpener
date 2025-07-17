@@ -3,9 +3,9 @@ import { Container, Image } from "react-bootstrap";
 export default function About() {
   return (
     <>
-      <h2 style={{textAlign: "center", padding: "1em"}}>About</h2>
+      
       <Container className="py-5">
-
+      <h2 style={{textAlign: "center", padding: "1.5em"}}>About</h2>
       <h3>
         Welcome to our site! We’re passionate about delivering quality content
         and innovative ideas to our community. Our mission is to empower and

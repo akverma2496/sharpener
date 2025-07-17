@@ -6,12 +6,15 @@ const AuthProvider = ({children}) => {
 
     const [idToken, setIdToken] = useState(localStorage.getItem("idToken"))
     const [isLoggedIn, setIsLoggedIn] = useState(!!idToken)
+    const [userId, setUserId] = useState(localStorage.getItem("userId"))
 
     const authValues = {
-        idToken : idToken,
-        isLoggedIn: isLoggedIn,
-        setIsLoggedIn: setIsLoggedIn,
-        setIdToken: setIdToken
+        idToken,
+        isLoggedIn,
+        setIsLoggedIn,
+        setIdToken,
+        userId,
+        setUserId
     }
 
   return (

@@ -1,11 +1,22 @@
-import { createContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
+import { AuthContext } from "./AuthProvider"
 
 export const ProductContext = createContext()
 
 const ProductProvider = (props) => {
 
+    const { userId } = useContext(AuthContext)
     const [modal, setModal] = useState(false)
     const [cartItems, setCartItems] = useState([])
+
+    useEffect(() => {
+        const getThedata = async () => {
+            const response = await fetch(`https://e-commerce-2496-default-rtdb.asia-southeast1.firebasedatabase.app/cartItems/${userId}.json`)
+            const data = await response.json()
+            setCartItems(data || [])
+        }
+        getThedata();
+    },[])
 
     const products = [
         {

@@ -26,8 +26,8 @@ const Home = () => {
 
   return (
     <>
-    <h2 style={{textAlign: "center", padding: "1em"}}>Tours</h2>
     <Container className="py-4">
+      <h2 style={{textAlign: "center", padding: "2em"}}>Tours</h2>
       {events.map((event, index) => (
         <Row
           key={index}

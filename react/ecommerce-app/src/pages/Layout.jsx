@@ -6,7 +6,6 @@ const Layout = () => {
   return (
     <>
     <MainHeader />
-    <h1 style={{textAlign: "center", padding: "1em", backgroundColor: "lightgray"}}>The Generics</h1>
     <Outlet />
     <Footer />
     </>

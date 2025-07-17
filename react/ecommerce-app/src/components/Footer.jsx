@@ -4,7 +4,7 @@ import { FaYoutube, FaSpotify, FaFacebook } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-light py-3 mt-5 border-top">
+    <footer className="bg-light py-3 mt-5 border-top position-fixed bottom-0 w-100">
       <Container>
         <Row className="align-items-center">
           {/* Left half: Text */}

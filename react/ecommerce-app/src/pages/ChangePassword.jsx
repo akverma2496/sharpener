@@ -14,9 +14,8 @@ function ChangePassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Add password validation or API call here
-        console.log(authValues)
 
-
+        console.log(authValues.idToken)
         const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`, {
             method: "POST",
             body: JSON.stringify({
@@ -34,14 +33,16 @@ function ChangePassword() {
             console.log(error)
         }
 
+        localStorage.clear()
         authValues.setIsLoggedIn(false)
         authValues.setIdToken(null)
+        authValues.setUserId("")
         alert("Password Changed Successfully.")
         navigate("/login")
     };
 
     return (
-        <Container className="mt-5" style={{ maxWidth: "400px" }}>
+        <Container className="mt-5" style={{ maxWidth: "400px", paddingTop: "100px" }}>
             <h3>Set New Password</h3>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formNewPassword" className="mb-3">

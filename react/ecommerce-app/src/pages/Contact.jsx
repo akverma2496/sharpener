@@ -52,7 +52,7 @@ const Contact = () => {
     }
 
   return (
-    <Container className="mt-4" style={{ maxWidth: '500px' }}>
+    <Container className="mt-4" style={{ maxWidth: '500px', paddingTop: "100px" }}>
       <h3>Contact Form</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formName" className="mb-3">

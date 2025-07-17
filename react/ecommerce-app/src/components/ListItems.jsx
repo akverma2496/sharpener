@@ -1,27 +1,41 @@
+import { useContext } from "react";
 import { Form, Image, ListGroup, Button } from "react-bootstrap";
+import { AuthContext } from "../store/AuthProvider";
 
 const ListItems = ({cartItems, setCartItems}) => {
 
+  const { userId} = useContext(AuthContext)
+
     const updateQuantity = (inc, name) => {
+
     setCartItems((prevItems) => (
       prevItems.map((item) => (
         item.title === name ? { ...item, quantity: parseInt(inc) } : item
       ))
     ))
+
   };
 
-  const removeCartItem = (product) => {
+  const removeCartItem = async (product) => {
+
     const filteredItems = cartItems.filter((item) => {
       return product.id != item.id
     })
+
     setCartItems(filteredItems)
+
+    const response = await fetch(`https://e-commerce-2496-default-rtdb.asia-southeast1.firebasedatabase.app/cartItems/${userId}.json`,{
+        method:"PUT",
+        body: JSON.stringify(filteredItems),
+        headers : { "Content-Type" : "application/json"}
+    })
   }
 
   return (
     <>
         {
             cartItems.map((product) => (
-            <ListGroup.Item className="d-flex align-items-center">
+            <ListGroup.Item id={product.id} className="d-flex align-items-center">
                 {/* Small Image */}
                 <Image
                 src={product.imageUrl}

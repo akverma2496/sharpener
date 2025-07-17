@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Form, Button, Container, Card, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/AuthProvider';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const SignupPage = () => {
+
+  const navigate = useNavigate()
+  const {setIsLoggedIn, setIdToken, setUserId} = useContext(AuthContext)
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+    const [alert, setAlert] = useState({
+    variant: "",
+    message: ""
+  })
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -23,13 +33,42 @@ const SignupPage = () => {
             "Content-Type": "application/json"
         }
     })
+
+    if (!response.ok) {
+      const { error } = await response.json()
+      setAlert({ variant: "danger", message: error.message })
+      setTimeout(() => { setAlert({ variant: "", message: "" }) }, 2000)
+    }
+    else {
+      const data = await response.json();
+
+      localStorage.setItem("idToken", data.idToken)
+      //localStorage.setItem("refreshToken", data.refreshToken)
+      //localStorage.setItem("userId", data.localId)
+
+      setIdToken(data.idToken)
+      setUserId(data.localId)
+  
+      setAlert({
+        variant: "success",
+        message: "Account has been created"
+      })
+
+      setTimeout(() => {
+        setIsLoggedIn(true)
+        navigate("/products")
+        setAlert({ variant: "", message: "" })
+      }, 2000)
+    }
+    
   }
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+    <Container className="d-flex justify-content-center align-items-center my-5" style={{ minHeight: '50vh',paddingTop: '100px' }}>
       <Card style={{ width: '24rem' }}>
         <Card.Body>
           <Card.Title className="text-center mb-4">Sign Up</Card.Title>
+          {alert.message && <Alert key={alert.variant} variant={alert.variant}>{alert.message}</Alert>}
           <Form onSubmit={handleSignup}>
             <Form.Group className="mb-3" controlId="signupEmail">
               <Form.Label>Email address</Form.Label>
