@@ -1,42 +1,53 @@
-import React, {useContext, useState} from 'react'
+import React, { useContext, useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
-import { ExpenseContext } from '../store/ExpenseProvider';
-import { AuthContext } from '../store/AuthProvider';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { expenseActions } from '../store/expense-slice';
+const database = import.meta.env.VITE_DATABASE_KEY
 
-const MyModal = ({modal, setModal, item, id}) => {
+const MyModal = ({ modal, setModal, item, id }) => {
 
-    const {allExpenses, setAllExpenses} = useContext(ExpenseContext)
-    const { userId } = useContext(AuthContext)
-
+  const localId = useSelector(state => state.auth.localId)
+  const totalExpenseAmount = useSelector(state => state.expense.totalExpenseAmount)
+  const dispatch = useDispatch()
   const [amount, setAmount] = useState(item.amount);
   const [description, setDescription] = useState(item.description);
   const [category, setCategory] = useState(item.category);
+  const [date, setDate] = useState(item.date)
 
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response = await fetch(`https://expense-tracker-cb823-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${userId}/${id}.json`,{
-      method : "PUT",
+    const responseOne = await fetch(`${database}/${localId}/allExpenses/${id}.json`, {
+      method: "PUT",
       body: JSON.stringify({
-        amount : amount,
-        description : description,
-        category : category
+        id : id,
+        amount: amount,
+        description: description,
+        category: category,
+        date: date
       }),
-      headers : { "Content-Type" : "application/json"}
+      headers: { "Content-Type": "application/json" }
     })
-    
-    setAllExpenses((prev) => {
-        return {
-            ...prev,
-            [id] : {
-                amount : amount,
-                description : description,
-                category: category
-            }
-        }
+
+    const responseTwo = await fetch(`${database}/${localId}/totalExpenseAmount.json`, {
+      method: "PUT",
+      body: JSON.stringify(totalExpenseAmount - parseFloat(item.amount) + parseFloat(amount)),
+      headers: { "Content-Type": "application/json" }
     })
+
+    if (!responseOne.ok || !responseTwo.ok) {
+      const { error } = await response.json()
+      toast.error(error.message)
+    }
+    else {
+      dispatch(expenseActions.updateExpense({
+        id, 
+        amount : parseFloat(amount), 
+        description, category, date
+      }))
+    }
     setModal(false)
   }
 
@@ -93,6 +104,16 @@ const MyModal = ({modal, setModal, item, id}) => {
               <option>Electronics</option>
               <option>Clothes</option>
             </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formDate">
+            <Form.Label>Date</Form.Label>
+            <Form.Control
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
           </Form.Group>
 
           <div className="d-grid">

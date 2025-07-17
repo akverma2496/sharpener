@@ -1,97 +1,52 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { Form, Button, Container, Card, FormGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../store/AuthProvider';
 import FormItem from '../components/FormItem';
-import Alert from 'react-bootstrap/Alert';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../store/auth-actions';
+import { toast } from 'react-toastify';
 const apiKey = import.meta.env.VITE_API_KEY
 
 const Login = () => {
 
-  const { setLoggedIn, setIdToken, setUserId } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState({
-    variant: "",
-    message: ""
-  })
-
+  const inputRef = useRef(null)
 
   const forgotPasswordHandler = async () => {
-    try{
-      const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiKey}`,{
-      method : "POST",
-      body: JSON.stringify({
-        requestType: "PASSWORD_RESET",
-        email: email
+    try {
+      const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiKey}`, {
+        method: "POST",
+        body: JSON.stringify({
+          requestType: "PASSWORD_RESET",
+          email: email
+        })
       })
-    })
 
-    if(!response.ok){
-      const {error} = await response.json()
-      console.log(error)
-      throw error;
+      if (!response.ok) {
+        const { error } = await response.json()
+        throw error;
+      }
+      else {
+        toast.success("Please check your mail")
+      }
     }
-    else{
-      setAlert({ variant: "success", message: "Please check your email" })
-      setTimeout(() => {
-        setAlert({variant: "",message: ""})
-      },2000)
+    catch (err) {
+      inputRef.current.focus()
+      toast.error(err.message)
     }
-    }
-    catch(err){
-      setAlert({
-        variant: "danger",
-        message: err.message
-      })
-      setTimeout(() => {
-        setAlert({variant: "",message: ""})
-      },2000)
-    }
-    
   }
 
   const handleLogin = async (e) => {
-
     e.preventDefault();
-
-    const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`, {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }),
-      headers: { "Content-Type": "application/json" }
-    })
-
-    if (!response.ok) {
-      const { error } = await response.json()
-      setAlert({ variant: "danger", message: error.message })
-      setTimeout(() => { setAlert({ variant: "", message: "" }) }, 2000)
-    }
-    else {
-      const data = await response.json();
-
-      setAlert({
-        variant: "success",
-        message: "Logged in successfully"
-      })
-
-      localStorage.setItem("idToken", data.idToken);
-      localStorage.setItem("refreshToken", data.refreshToken)
-      localStorage.setItem("userId", data.localId)
-
-      setTimeout(() => {
-        setLoggedIn(true);
-        setIdToken(data.idToken);
-        setUserId(data.localId)
-        setAlert({ variant: "", message: "" })
-        navigate("/home")
-      }, 2000)
+    try {
+      await dispatch(loginUser({ email, password })).unwrap();
+      toast.success("Login successful!");
+      navigate("/home");
+    } catch (errorMessage) {
+      toast.error(errorMessage || "Login failed");
     }
   };
 
@@ -100,11 +55,10 @@ const Login = () => {
       <Card style={{ width: '24rem' }}>
         <Card.Body>
           <Card.Title className="text-center mb-4">Login</Card.Title>
-          {alert.message && <Alert key={alert.variant} variant={alert.variant}>{alert.message}</Alert>}
           <Form onSubmit={handleLogin}>
 
-            <FormItem id={"loginEmail"} label={"Email Address"} type={"email"} placeholder={"EnterEmail"} value={email} onChange={(e) => setEmail(e.target.value)} />
-            <FormItem id={"loginPassword"} label={"Password"} type={"password"} placeholder={"EnterPassWord"} value={password} onChange={(e) => setPassword(e.target.value)} />
+            <FormItem ref={inputRef} id={"loginEmail"} label={"Email Address"} type={"email"} placeholder={"Enter email"} value={email} onChange={(e) => setEmail(e.target.value)} />
+            <FormItem id={"loginPassword"} label={"Password"} type={"password"} placeholder={"Enter password"} value={password} onChange={(e) => setPassword(e.target.value)} />
 
             <p style={{ textAlign: "center", marginTop: "10px" }} ><Link onClick={forgotPasswordHandler}>Forgot Password?</Link></p>
 

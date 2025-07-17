@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
-import { Button, Alert } from 'react-bootstrap';
-
+import { Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { authActions } from '../store/auth-slice';
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const VerifyEmail = ({ user }) => {
 
-  const [alert, showAlert] = useState(false)
-
+  const dispatch = useDispatch();
   const handleVerifyEmail = async () => {
 
     try {
@@ -18,33 +19,32 @@ const VerifyEmail = ({ user }) => {
         })
       })
 
-      // const data = await response.json()
-
-      showAlert(true);
-
+      if(!response.ok){
+        const {error} = await response.json()
+        throw new Error(error)
+      }
+      else{
+        dispatch(authActions.emailverify(true))
+        toast.success("Verification link sent ... Check your inbox")
+      }
     }
-    catch (err) { }
+    catch (error) { toast.error(error.message) }
   };
 
   return (
 
     <div className="container" style={{ maxWidth: '400px', marginTop: '50px' }}>
-
-      {alert ? (
-        <Alert variant="success" className="mt-3">
-          A verification email has been sent! Please check your inbox.
-        </Alert>
-      ) : (
+      {
         !user.emailVerified && (
           <Button
             variant="danger"
             onClick={handleVerifyEmail}
             className="w-100"
-          >
+          > 
             Verify Your Email
           </Button>
         )
-      )}
+      }
     </div>
   );
 };
